@@ -13,7 +13,8 @@
     "migrate:blog": "tsx scripts/migrate-blog.ts",
     "check:links": "tsx scripts/check-links.ts",
     "check:seo-parity": "tsx scripts/check-seo-parity.ts",
-    "generate:og": "node scripts/generate-og-cards.mjs"
+    "generate:og": "node scripts/generate-og-cards.mjs",
+    "generate:webp": "node scripts/generate-webp.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

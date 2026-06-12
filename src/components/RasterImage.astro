@@ -1,0 +1,51 @@
+---
+/**
+ * Serves a public/ raster image via <picture> with a WebP source twin
+ * for modern browsers and the original JPG/PNG as fallback.
+ *
+ * Pre-generated WebP twins live alongside the source files (see
+ * scripts/generate-webp.mjs). If a WebP doesn't exist for a given src,
+ * the component still renders a plain <img>.
+ *
+ * All standard <img> attributes (width/height/loading/class/etc) pass
+ * through. Defaults loading="lazy"; pass loading="eager" + fetchpriority
+ * for above-the-fold images.
+ */
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number | string;
+  height?: number | string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'auto' | 'low' | 'high';
+  /** Optional <picture> wrapper class (rarely needed). */
+  pictureClass?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: imgClass,
+  loading = 'lazy',
+  fetchpriority,
+  pictureClass,
+} = Astro.props;
+
+const webpSrc = src.replace(/\.(jpe?g|png)$/i, '.webp');
+const hasWebp = webpSrc !== src;
+---
+<picture class={pictureClass}>
+  {hasWebp && <source srcset={webpSrc} type="image/webp" />}
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={imgClass}
+    loading={loading}
+    fetchpriority={fetchpriority}
+  />
+</picture>

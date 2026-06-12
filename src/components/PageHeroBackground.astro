@@ -16,15 +16,26 @@ const { src, opacity = 0.18, position = 'center' } = Astro.props;
 
 const objectPosition =
   position === 'top' ? 'object-top' : position === 'bottom' ? 'object-bottom' : 'object-center';
+
+// Derive the WebP twin path. Modern browsers pick the WebP source via
+// the <picture> element; legacy browsers fall back to the original.
+// scripts/generate-webp.mjs writes the .webp alongside every JPG/PNG
+// in public/images/.
+const webpSrc = src.replace(/\.(jpe?g|png)$/i, '.webp');
+const hasWebp = webpSrc !== src;
 ---
 <div class="absolute inset-0 z-0" aria-hidden="true">
-  <img
-    src={src}
-    alt=""
-    class={`absolute inset-0 w-full h-full object-cover ${objectPosition}`}
-    style={`opacity: ${opacity}`}
-    loading="eager"
-  />
+  <picture>
+    {hasWebp && <source srcset={webpSrc} type="image/webp" />}
+    <img
+      src={src}
+      alt=""
+      class={`absolute inset-0 w-full h-full object-cover ${objectPosition}`}
+      style={`opacity: ${opacity}`}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </picture>
   {/* Heavy navy overlay to preserve readability */}
   <div class="absolute inset-0 bg-gradient-to-br from-[#0B1D3A]/92 via-[#122a4f]/88 to-[#0f3d5c]/92"></div>
 </div>

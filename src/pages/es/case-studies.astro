@@ -1,4 +1,5 @@
 ---
+import RasterImage from '@/components/RasterImage.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeroBackground from '@/components/PageHeroBackground.astro';
 import ScrollReveal from '@/components/ScrollReveal.astro';
@@ -178,7 +179,7 @@ const CASE_STUDIES: CaseStudy[] = [
             <>
               <ScrollReveal direction="left" delay={100}>
                 <div class="relative">
-                  <img src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover"  loading="lazy"/>
+                  <RasterImage src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover"  loading="lazy" />
                 </div>
               </ScrollReveal>
               <ScrollReveal direction="right" delay={200}>
@@ -268,7 +269,7 @@ const CASE_STUDIES: CaseStudy[] = [
               </ScrollReveal>
               <ScrollReveal direction="left" delay={100}>
                 <div class="relative">
-                  <img src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover"  loading="lazy"/>
+                  <RasterImage src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover"  loading="lazy" />
                 </div>
               </ScrollReveal>
             </>

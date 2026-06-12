@@ -55,6 +55,8 @@ const otherLocaleLabel = otherLocale === 'es' ? 'Español' : 'English';
           width="200"
           height="56"
           class="h-12 w-auto"
+          loading="eager"
+          fetchpriority="high"
         />
       </a>
 
@@ -133,7 +135,7 @@ const otherLocaleLabel = otherLocale === 'es' ? 'Español' : 'English';
 >
   <div class="p-6">
     <div class="flex items-center justify-between mb-8">
-      <img src="/logo.svg" alt="CPS Medical Billing" width="140" height="40" class="h-10 w-auto" />
+      <img src="/logo.svg" alt="CPS Medical Billing" width="140" height="40" class="h-10 w-auto"  loading="lazy"/>
       <button
         id="mobile-menu-close"
         class="p-2 rounded-lg hover:bg-slate-100 transition-colors"

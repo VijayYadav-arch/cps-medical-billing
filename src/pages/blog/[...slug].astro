@@ -35,6 +35,39 @@ function formatDate(d: Date): string {
 const category =
   post.data.tags && post.data.tags.length > 0 ? post.data.tags[0] : 'Article';
 const heroSrc = post.data.hero ?? '/images/stethoscope.jpg';
+
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://cpshealthcarebilling.com';
+const postUrl = `${SITE_URL}/blog/${post.slug}/`;
+const heroUrl = `${SITE_URL}${heroSrc}`;
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.excerpt,
+  image: heroUrl,
+  datePublished: post.data.publishedAt.toISOString(),
+  dateModified: (post.data.updatedAt ?? post.data.publishedAt).toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: post.data.author,
+    url: SITE_URL,
+  },
+  publisher: { '@id': `${SITE_URL}/#organization` },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+  articleSection: category,
+  inLanguage: 'en-US',
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: postUrl },
+  ],
+};
 ---
 <BaseLayout
   title={post.data.title}
@@ -45,6 +78,7 @@ const heroSrc = post.data.hero ?? '/images/stethoscope.jpg';
     image: post.data.hero,
     type: 'article',
   }}
+  extraJsonLd={[articleJsonLd, breadcrumbJsonLd]}
 >
   {/* ===== PAGE HERO ===== */}
   <section class="page-hero py-32 pt-40">
@@ -97,7 +131,7 @@ const heroSrc = post.data.hero ?? '/images/stethoscope.jpg';
               width={800}
               height={450}
               class="w-full h-[400px] object-cover"
-            />
+             loading="lazy"/>
           </div>
         )}
 

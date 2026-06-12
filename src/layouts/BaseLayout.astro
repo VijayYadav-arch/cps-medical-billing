@@ -30,6 +30,12 @@ export interface Props {
     image?: string;
   };
   noindex?: boolean;
+  /**
+   * Extra JSON-LD blocks to render alongside the default Organization/WebSite
+   * schemas. Pass schema.org objects (Article, BreadcrumbList, FAQPage, etc.)
+   * tailored to the page. The default schemas are always included.
+   */
+  extraJsonLd?: Record<string, unknown>[];
 }
 
 const {
@@ -41,6 +47,7 @@ const {
   og,
   twitter,
   noindex = false,
+  extraJsonLd = [],
 } = Astro.props;
 
 const locale = getLocale(Astro.url);
@@ -62,9 +69,30 @@ const hasSpanishMirror = SPANISH_TRANSLATED_PATHS.has(enEquivalent);
 const alternateEn = hasSpanishMirror ? new URL(pathFor('en', enEquivalent), Astro.site).toString() : canonicalUrl;
 const alternateEs = hasSpanishMirror ? new URL(pathFor('es', enEquivalent), Astro.site).toString() : null;
 
+// Per-page Open Graph cards live at /og/<slug>.png (EN) and /og/<slug>.es.png (ES).
+// Lookup table maps the canonical English path to its slug; we add the .es.png
+// suffix when the page is rendering in Spanish. Pages can still override via
+// the `og.image` prop (e.g. blog posts which use their own hero image).
+const OG_SLUG_BY_PATH: Record<string, string> = {
+  '/': 'default',
+  '/about': 'about',
+  '/services': 'services',
+  '/pricing': 'pricing',
+  '/contact': 'contact',
+  '/why-cps': 'why-cps',
+  '/case-studies': 'case-studies',
+  '/faq': 'faq',
+  '/blog': 'blog',
+  '/assessment': 'assessment',
+  '/roi-calculator': 'roi-calculator',
+  '/resources': 'resources',
+};
+const ogSlug = OG_SLUG_BY_PATH[enEquivalent] ?? 'default';
+const defaultOgImage = locale === 'es' ? `/og/${ogSlug}.es.png` : `/og/${ogSlug}.png`;
+
 const ogTitle = og?.title ?? fullTitle;
 const ogDescription = og?.description ?? description ?? '';
-const ogImage = og?.image ?? '/images/banner3.jpg';
+const ogImage = og?.image ?? defaultOgImage;
 const ogImageWidth = og?.imageWidth ?? 1200;
 const ogImageHeight = og?.imageHeight ?? 630;
 const ogImageAlt = og?.imageAlt ?? SITE_NAME;
@@ -74,24 +102,74 @@ const twitterTitle = twitter?.title ?? fullTitle;
 const twitterDescription = twitter?.description ?? description ?? '';
 const twitterImage = twitter?.image ?? ogImage;
 
-const localBusinessJsonLd = {
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://cpshealthcarebilling.com';
+
+const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
   name: SITE_NAME,
+  legalName: 'Complete Professional Solutions',
+  alternateName: 'CPS',
   description:
-    'Complete Professional Solutions for healthcare billing. Specializing in hospice, home health, and palliative care billing services.',
-  url: 'https://cpshealthcarebilling.com',
-  telephone: '801-341-9304',
+    'Complete Professional Solutions for healthcare billing. Specializing in hospice, home health, and palliative care billing services across all 50 states.',
+  url: SITE_URL,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE_URL}/logo.svg`,
+    width: 200,
+    height: 56,
+  },
+  telephone: '+1-801-341-9304',
   email: 'completeprosolns@gmail.com',
-  openingHours: 'Mo-Sa 10:00-18:00',
-  areaServed: 'United States',
-  serviceType: [
+  areaServed: {
+    '@type': 'Country',
+    name: 'United States',
+  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-801-341-9304',
+      email: 'completeprosolns@gmail.com',
+      contactType: 'customer service',
+      areaServed: 'US',
+      availableLanguage: ['English', 'Spanish'],
+      hoursAvailable: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        opens: '10:00',
+        closes: '18:00',
+      },
+    },
+  ],
+  knowsAbout: [
     'Medical Billing',
     'Revenue Cycle Management',
     'Hospice Billing',
     'Home Health Billing',
     'Palliative Care Billing',
+    'HIPAA Compliance',
+    'Medicare Claims',
+    'Medicaid Claims',
   ],
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE_NAME,
+  inLanguage: htmlLang,
+  publisher: { '@id': `${SITE_URL}/#organization` },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 ---
 <!DOCTYPE html>
@@ -138,8 +216,13 @@ const localBusinessJsonLd = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
 
-    {/* LocalBusiness JSON-LD (cps parity) */}
-    <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+    {/* Organization + WebSite JSON-LD (always present) */}
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationJsonLd)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteJsonLd)} />
+    {/* Page-specific JSON-LD (Article, BreadcrumbList, FAQPage, etc.) */}
+    {extraJsonLd.map((blob) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(blob)} />
+    ))}
   </head>
   <body class="font-sans text-slate-800 bg-cream antialiased">
     <Header />

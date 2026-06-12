@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "migrate:blog": "tsx scripts/migrate-blog.ts",
     "check:links": "tsx scripts/check-links.ts",
-    "check:seo-parity": "tsx scripts/check-seo-parity.ts"
+    "check:seo-parity": "tsx scripts/check-seo-parity.ts",
+    "generate:og": "node scripts/generate-og-cards.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
@@ -35,6 +36,7 @@
     "better-sqlite3": "^12.10.0",
     "jsdom": "^29.1.1",
     "json5": "^2.2.3",
+    "sharp": "^0.35.1",
     "tsx": "^4.22.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.8"

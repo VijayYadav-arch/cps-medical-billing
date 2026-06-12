@@ -6,6 +6,8 @@ import { InquiryForm } from '@/islands/InquiryForm';
 
 vi.mock('@/lib/api', () => ({
   apiClient: { post: vi.fn() },
+}));
+vi.mock('@/lib/analytics', () => ({
   trackEvent: vi.fn(),
 }));
 

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { trackEvent } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 export type ROILocale = 'en' | 'es';
 

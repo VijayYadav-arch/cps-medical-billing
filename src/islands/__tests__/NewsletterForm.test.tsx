@@ -5,10 +5,13 @@ import { NewsletterForm } from '@/islands/NewsletterForm';
 
 vi.mock('@/lib/api', () => ({
   apiClient: { post: vi.fn() },
+}));
+vi.mock('@/lib/analytics', () => ({
   trackEvent: vi.fn(),
 }));
 
-import { apiClient, trackEvent } from '@/lib/api';
+import { apiClient } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 beforeEach(() => {
   vi.clearAllMocks();

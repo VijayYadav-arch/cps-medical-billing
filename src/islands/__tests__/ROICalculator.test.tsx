@@ -4,12 +4,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { ROICalculator } from '@/islands/ROICalculator';
 
-vi.mock('@/lib/api', () => ({
-  apiClient: { post: vi.fn() },
+vi.mock('@/lib/analytics', () => ({
   trackEvent: vi.fn(),
 }));
 
-import { trackEvent } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 beforeEach(() => {
   vi.clearAllMocks();

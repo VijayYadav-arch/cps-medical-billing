@@ -1,49 +1,58 @@
 ---
-const expertise = ['Medicare', 'Medicaid', 'Private Insurance', 'Medicaid Room & Board'];
+import { getLocale, pathFor, tr } from '@/lib/i18n';
+
+const locale = getLocale(Astro.url);
+
+const expertise = [
+  tr(locale, 'footer.expertise.medicare'),
+  tr(locale, 'footer.expertise.medicaid'),
+  tr(locale, 'footer.expertise.privateInsurance'),
+  tr(locale, 'footer.expertise.roomBoard'),
+];
 
 const serving = [
-  { label: 'Hospice', href: '/services' },
-  { label: 'Home Health', href: '/services' },
-  { label: 'Palliative Care', href: '/services' },
-  { label: 'Private Practices', href: '/services' },
+  { label: tr(locale, 'footer.serving.hospice'), href: pathFor(locale, '/services') },
+  { label: tr(locale, 'footer.serving.homeHealth'), href: pathFor(locale, '/services') },
+  { label: tr(locale, 'footer.serving.palliative'), href: pathFor(locale, '/services') },
+  { label: tr(locale, 'footer.serving.privatePractices'), href: pathFor(locale, '/services') },
 ];
 
 const services = [
-  { label: 'Collection / Reimbursement', href: '/services' },
-  { label: 'Monthly Reporting', href: '/services' },
-  { label: 'Case Studies', href: '/case-studies' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'ROI Calculator', href: '/roi-calculator' },
-  { label: 'Resources', href: '/resources' },
+  { label: tr(locale, 'footer.services.collection'), href: pathFor(locale, '/services') },
+  { label: tr(locale, 'footer.services.monthlyReporting'), href: pathFor(locale, '/services') },
+  { label: tr(locale, 'footer.services.caseStudies'), href: pathFor(locale, '/case-studies') },
+  { label: tr(locale, 'footer.services.pricing'), href: pathFor(locale, '/pricing') },
+  { label: tr(locale, 'footer.services.faq'), href: pathFor(locale, '/faq') },
+  { label: tr(locale, 'footer.services.roi'), href: pathFor(locale, '/roi-calculator') },
+  { label: tr(locale, 'footer.services.resources'), href: pathFor(locale, '/resources') },
 ];
 
 const badges = [
   {
-    label: 'HIPAA Compliant',
+    label: tr(locale, 'footer.badges.hipaa'),
     icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z',
   },
   {
-    label: 'AAPC Certified',
+    label: tr(locale, 'footer.badges.aapc'),
     icon: 'M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5',
   },
   {
-    label: 'SOC 2 Compliant',
+    label: tr(locale, 'footer.badges.soc2'),
     icon: 'M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z',
   },
 ];
 
 const currentYear = new Date().getFullYear();
+const brandName = tr(locale, 'brand');
 ---
 <footer class="footer-gradient text-white">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
       {/* Brand */}
       <div>
-        <img src="/logo-white.svg" alt="CPS Medical Billing" width="200" height="56" class="h-14 w-auto mb-4" />
+        <img src="/logo-white.svg" alt={brandName} width="200" height="56" class="h-14 w-auto mb-4" />
         <p class="text-slate-400 text-sm leading-relaxed mb-6">
-          Complete Professional Solutions for healthcare billing.
-          Your trusted partner in revenue cycle management.
+          {tr(locale, 'footer.brandTagline')}
         </p>
         <div class="space-y-3">
           <a href="tel:801-341-9304" class="flex items-center gap-2.5 text-sm text-teal-400 hover:text-teal-300 transition-colors group">
@@ -60,9 +69,9 @@ const currentYear = new Date().getFullYear();
           </a>
         </div>
         <div class="mt-6 pt-4 border-t border-slate-700/40">
-          <p class="text-xs text-slate-500 uppercase tracking-wider mb-1.5">Sister brand</p>
+          <p class="text-xs text-slate-500 uppercase tracking-wider mb-1.5">{tr(locale, 'footer.sisterBrand')}</p>
           <a href="https://mira.ai" target="_blank" rel="noopener noreferrer" class="text-sm text-teal-400 hover:text-teal-300 transition-colors inline-flex items-center gap-1">
-            <span>Mira — AI-native platform</span>
+            <span>{tr(locale, 'footer.sisterBrandLink')}</span>
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
             </svg>
@@ -73,7 +82,7 @@ const currentYear = new Date().getFullYear();
       {/* Our Expertise */}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-5">
-          Our Expertise
+          {tr(locale, 'footer.expertiseHeading')}
         </h4>
         <ul class="space-y-3">
           {expertise.map((item) => (
@@ -87,7 +96,7 @@ const currentYear = new Date().getFullYear();
       {/* Proudly Serving */}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-5">
-          Proudly Serving
+          {tr(locale, 'footer.servingHeading')}
         </h4>
         <ul class="space-y-3">
           {serving.map((item) => (
@@ -101,7 +110,7 @@ const currentYear = new Date().getFullYear();
       {/* Our Services */}
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-5">
-          Our Services
+          {tr(locale, 'footer.servicesHeading')}
         </h4>
         <ul class="space-y-3">
           {services.map((item) => (
@@ -133,17 +142,17 @@ const currentYear = new Date().getFullYear();
     {/* Bottom bar */}
     <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-slate-500 text-sm">
-        &copy; {currentYear} CPS Medical Billing. All Rights Reserved.
+        &copy; {currentYear} {brandName}. {tr(locale, 'footer.rights')}
       </p>
       <div class="flex items-center gap-6">
-        <a href="/privacy" class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
-          Privacy Policy
+        <a href={pathFor(locale, '/privacy')} class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
+          {tr(locale, 'footer.privacy')}
         </a>
-        <a href="/terms" class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
-          Terms of Service
+        <a href={pathFor(locale, '/terms')} class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
+          {tr(locale, 'footer.terms')}
         </a>
-        <a href="/contact" class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
-          Contact Us
+        <a href={pathFor(locale, '/contact')} class="text-slate-500 text-sm hover:text-teal-400 transition-colors">
+          {tr(locale, 'footer.contact')}
         </a>
       </div>
     </div>

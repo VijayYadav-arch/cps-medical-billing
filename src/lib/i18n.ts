@@ -37,7 +37,6 @@ const UI = {
   },
   cta: {
     freeAssessment: { en: 'Free Assessment', es: 'Evaluación gratuita' },
-    clientLogin: { en: 'Client Login', es: 'Acceso para clientes' },
     signUpFree: { en: 'Sign Up Free', es: 'Registrarse gratis' },
     callUs: { en: 'Call us directly', es: 'Llámenos directamente' },
     learnMore: { en: 'Learn more', es: 'Más información' },
@@ -48,11 +47,49 @@ const UI = {
     spanish: { en: 'Español', es: 'Español' },
   },
   footer: {
-    rights: { en: 'All rights reserved.', es: 'Todos los derechos reservados.' },
+    rights: { en: 'All Rights Reserved.', es: 'Todos los derechos reservados.' },
     description: {
       en: 'Specializing in hospice, home health, and palliative care billing across all 50 states.',
       es: 'Especialistas en facturación de cuidados paliativos, salud en el hogar y hospicio en los 50 estados.',
     },
+    brandTagline: {
+      en: 'Complete Professional Solutions for healthcare billing. Your trusted partner in revenue cycle management.',
+      es: 'Soluciones profesionales completas para la facturación de salud. Su socio de confianza en la gestión del ciclo de ingresos.',
+    },
+    sisterBrand: { en: 'Sister brand', es: 'Marca hermana' },
+    sisterBrandLink: { en: 'Mira — AI-native platform', es: 'Mira — plataforma con IA' },
+    expertiseHeading: { en: 'Our Expertise', es: 'Nuestra experiencia' },
+    servingHeading: { en: 'Proudly Serving', es: 'A quiénes servimos' },
+    servicesHeading: { en: 'Our Services', es: 'Nuestros servicios' },
+    expertise: {
+      medicare: { en: 'Medicare', es: 'Medicare' },
+      medicaid: { en: 'Medicaid', es: 'Medicaid' },
+      privateInsurance: { en: 'Private Insurance', es: 'Seguros privados' },
+      roomBoard: { en: 'Medicaid Room & Board', es: 'Medicaid – habitación y comida' },
+    },
+    serving: {
+      hospice: { en: 'Hospice', es: 'Hospicio' },
+      homeHealth: { en: 'Home Health', es: 'Salud en el hogar' },
+      palliative: { en: 'Palliative Care', es: 'Cuidados paliativos' },
+      privatePractices: { en: 'Private Practices', es: 'Consultorios privados' },
+    },
+    services: {
+      collection: { en: 'Collection / Reimbursement', es: 'Cobranza y reembolso' },
+      monthlyReporting: { en: 'Monthly Reporting', es: 'Informes mensuales' },
+      caseStudies: { en: 'Case Studies', es: 'Casos de éxito' },
+      pricing: { en: 'Pricing', es: 'Precios' },
+      faq: { en: 'FAQ', es: 'Preguntas frecuentes' },
+      roi: { en: 'ROI Calculator', es: 'Calculadora de ingresos' },
+      resources: { en: 'Resources', es: 'Recursos' },
+    },
+    badges: {
+      hipaa: { en: 'HIPAA Compliant', es: 'Conformidad HIPAA' },
+      aapc: { en: 'AAPC Certified', es: 'Certificación AAPC' },
+      soc2: { en: 'SOC 2 Compliant', es: 'Alineado con SOC 2' },
+    },
+    privacy: { en: 'Privacy Policy', es: 'Política de privacidad' },
+    terms: { en: 'Terms of Service', es: 'Términos de servicio' },
+    contact: { en: 'Contact Us', es: 'Contáctenos' },
   },
 } as const;
 

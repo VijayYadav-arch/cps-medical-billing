@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { apiClient, trackEvent } from '@/lib/api';
+import { apiClient } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 export type InquiryLocale = 'en' | 'es';
 

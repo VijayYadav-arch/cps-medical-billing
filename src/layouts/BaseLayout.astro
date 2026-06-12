@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import Analytics from '@/components/Analytics.astro';
 import { enPathOf, getLocale, pathFor, SPANISH_TRANSLATED_PATHS } from '@/lib/i18n';
 
 export interface Props {
@@ -223,6 +224,9 @@ const websiteJsonLd = {
     {extraJsonLd.map((blob) => (
       <script type="application/ld+json" is:inline set:html={JSON.stringify(blob)} />
     ))}
+
+    {/* GA4 + Search Console / Bing verification (env-driven, dev-safe) */}
+    <Analytics />
   </head>
   <body class="font-sans text-slate-800 bg-cream antialiased">
     <Header />

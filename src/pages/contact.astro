@@ -1,4 +1,5 @@
 ---
+import RasterImage from '@/components/RasterImage.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeroBackground from '@/components/PageHeroBackground.astro';
 import ScrollReveal from '@/components/ScrollReveal.astro';
@@ -143,14 +144,13 @@ import { InquiryForm } from '@/islands/InquiryForm';
               <span>We typically respond within 1 business day</span>
             </div>
             <div class="rounded-2xl overflow-hidden shadow-lg">
-              <img
+              <RasterImage
                 src="/images/medical-reception.jpg"
                 alt="CPS medical office reception"
                 width="500"
                 height="350"
                 loading="lazy"
-                class="w-full h-[250px] object-cover"
-              />
+                class="w-full h-[250px] object-cover" />
             </div>
           </ScrollReveal>
         </div>

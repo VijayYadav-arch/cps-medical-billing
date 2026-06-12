@@ -1,0 +1,16 @@
+{
+  "name": "CPS Clinical",
+  "short_name": "CPS",
+  "description": "CPS Medical Billing - Clinician Portal",
+  "start_url": "/clinician/dashboard",
+  "display": "standalone",
+  "background_color": "#0B1D3A",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "/logo-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

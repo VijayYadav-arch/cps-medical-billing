@@ -1,0 +1,65 @@
+---
+export interface Props {
+  /**
+   * Animation direction. "stagger" reveals children sequentially.
+   */
+  direction?: 'up' | 'left' | 'right' | 'stagger';
+  /**
+   * Delay before reveal in ms.
+   */
+  delay?: number;
+  /**
+   * Additional classes applied to the wrapper.
+   */
+  class?: string;
+}
+
+const { direction = 'up', delay = 0, class: className = '' } = Astro.props;
+
+const animClass =
+  direction === 'left'
+    ? 'reveal-left'
+    : direction === 'right'
+    ? 'reveal-right'
+    : direction === 'stagger'
+    ? 'stagger-children'
+    : 'reveal';
+---
+<div class={`${animClass} ${className}`} data-scroll-reveal data-delay={delay}>
+  <slot />
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.__cpsScrollRevealInit) return;
+    window.__cpsScrollRevealInit = true;
+
+    function init() {
+      const targets = document.querySelectorAll('[data-scroll-reveal]:not([data-revealed])');
+      if (!targets.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+              setTimeout(() => el.classList.add('revealed'), delay);
+              el.setAttribute('data-revealed', 'true');
+              obs.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      targets.forEach((el) => observer.observe(el));
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>

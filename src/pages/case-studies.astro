@@ -1,0 +1,346 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+interface StatCard {
+  value: string;
+  label: string;
+}
+
+interface CaseStudy {
+  id: string;
+  bg: string;
+  imageFirst: boolean;
+  image: string;
+  imageAlt: string;
+  category: string;
+  title: string;
+  client: string;
+  challenge: string;
+  solution: string;
+  stats: StatCard[];
+  quote: string;
+  quoteAttribution: string;
+}
+
+const CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "hospice",
+    bg: "bg-cream",
+    imageFirst: true,
+    image: "/images/hospice-care.jpg",
+    imageAlt: "Hospice care professionals",
+    category: "Hospice",
+    title: "22% Collection Increase in 90 Days",
+    client: "Mid-Size Hospice Agency | 85 Average Daily Census",
+    challenge:
+      "The agency was struggling with a 15% denial rate and inconsistent claims submission. Revenue was declining despite growing patient census.",
+    solution:
+      "CPS implemented daily claims processing, established denial tracking workflows, and renegotiated payer contracts.",
+    stats: [
+      { value: "+22%", label: "increase in collections" },
+      { value: "15% → 4%", label: "denial rate" },
+      { value: "45 → 28", label: "days in A/R" },
+    ],
+    quote:
+      "CPS didn't just improve our billing — they transformed our entire revenue cycle.",
+    quoteAttribution: "Director of Operations",
+  },
+  {
+    id: "home-health",
+    bg: "bg-white",
+    imageFirst: false,
+    image: "/images/home-health.jpg",
+    imageAlt: "Home health caregiver with patient",
+    category: "Home Health",
+    title: "A/R Reduced from 45 to 28 Days",
+    client: "Growing Home Health Agency | 120 Patients",
+    challenge:
+      "Rapid growth led to billing backlogs. Claims were being submitted late, A/R was ballooning, and the agency lacked visibility into their financial performance.",
+    solution:
+      "CPS took over complete revenue cycle management, implemented same-day NOA submissions, and provided monthly financial dashboards.",
+    stats: [
+      { value: "45 → 28", label: "days in A/R" },
+      { value: "98.5%", label: "clean claim rate" },
+      { value: "+$45K", label: "monthly revenue increase" },
+    ],
+    quote:
+      "We finally have visibility into our revenue cycle. The monthly reports alone are worth the partnership.",
+    quoteAttribution: "Agency Owner",
+  },
+  {
+    id: "palliative",
+    bg: "bg-cream",
+    imageFirst: true,
+    image: "/images/palliative-care.jpg",
+    imageAlt: "Palliative care physician with patient",
+    category: "Palliative Care",
+    title: "$180K Recovered Revenue in First Year",
+    client: "Private Palliative Care Practice | 3 Physicians",
+    challenge:
+      "The practice was billing in-house with a single billing clerk who lacked specialized palliative care coding knowledge. Undercoding and missed charges were widespread.",
+    solution:
+      "CPS conducted a comprehensive billing audit, corrected coding practices, and established proper payer enrollment for all physicians.",
+    stats: [
+      { value: "$180K", label: "recovered in year one" },
+      { value: "+35%", label: "revenue per-visit increase" },
+      { value: "Zero", label: "compliance issues" },
+    ],
+    quote:
+      "We had no idea how much revenue we were leaving on the table until CPS showed us.",
+    quoteAttribution: "Practice Administrator",
+  },
+];
+---
+<BaseLayout
+  title="Case Studies"
+  description="See how CPS Medical Billing has helped healthcare practices increase collections, reduce A/R days, and recover lost revenue."
+>
+  {/* ===== PAGE HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/partnership-handshake.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+            Client Success Stories
+          </span>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+            Case <span class="text-teal-400">Studies</span>
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Real results from real healthcare practices. See how CPS
+            transforms billing operations.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== AGGREGATE RESULTS ===== */}
+  <section class="bg-cream py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <ScrollReveal direction="left">
+          <div>
+            <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+              Results Across Our Clients
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-6">
+              The Numbers Tell Our Story
+            </h2>
+            <div class="section-line mb-8" />
+            <p class="text-slate-600 leading-relaxed mb-6">
+              Over the past decade, CPS has consistently delivered measurable
+              improvements for healthcare practices of all sizes. The results
+              shown below represent the aggregate performance across our active
+              client base.
+            </p>
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">98%</div>
+                <div class="text-sm text-slate-600">Avg. Collection Rate</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">22%</div>
+                <div class="text-sm text-slate-600">Avg. Revenue Increase</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">28</div>
+                <div class="text-sm text-slate-600">Avg. Days in A/R</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">95%</div>
+                <div class="text-sm text-slate-600">Client Retention</div>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal direction="right">
+          <img
+            src="/illustrations/revenue-growth.svg"
+            alt="Revenue growth chart illustration"
+            class="w-full h-auto rounded-2xl"
+          />
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== CASE STUDIES ===== */}
+  {CASE_STUDIES.map((cs) => (
+    <section class={`${cs.bg} py-24`}>
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          {cs.imageFirst ? (
+            <>
+              <ScrollReveal direction="left" delay={100}>
+                <div class="relative">
+                  <img
+                    src={cs.image}
+                    alt={cs.imageAlt}
+                    class="rounded-2xl shadow-xl w-full object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+              <ScrollReveal direction="right" delay={200}>
+                <div>
+                  <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-semibold uppercase tracking-wider border border-teal-200 mb-4">
+                    {cs.category}
+                  </span>
+                  <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-2">
+                    {cs.title}
+                  </h2>
+                  <p class="text-slate-500 text-sm font-medium mb-5">{cs.client}</p>
+                  <div class="section-line mb-6" />
+                  <div class="mb-4">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Challenge
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                      {cs.challenge}
+                    </p>
+                  </div>
+                  <div class="mb-6">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Solution
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                      {cs.solution}
+                    </p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-4 mb-2">
+                    {cs.stats.map((stat) => (
+                      <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-100">
+                        <p class="font-serif text-2xl sm:text-3xl text-teal-600 font-bold leading-tight mb-1">
+                          {stat.value}
+                        </p>
+                        <p class="text-slate-600 text-sm leading-snug">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="mt-8 relative pl-6 border-l-4 border-teal-400">
+                    <svg
+                      class="absolute -top-3 -left-3 w-8 h-8 text-teal-200"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                    <p class="text-slate-700 italic leading-relaxed mb-2">&ldquo;{cs.quote}&rdquo;</p>
+                    <p class="text-teal-600 text-sm font-semibold">&mdash; {cs.quoteAttribution}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </>
+          ) : (
+            <>
+              <ScrollReveal direction="right" delay={200}>
+                <div>
+                  <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-semibold uppercase tracking-wider border border-teal-200 mb-4">
+                    {cs.category}
+                  </span>
+                  <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-2">
+                    {cs.title}
+                  </h2>
+                  <p class="text-slate-500 text-sm font-medium mb-5">{cs.client}</p>
+                  <div class="section-line mb-6" />
+                  <div class="mb-4">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Challenge
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                      {cs.challenge}
+                    </p>
+                  </div>
+                  <div class="mb-6">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Solution
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                      {cs.solution}
+                    </p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-4 mb-2">
+                    {cs.stats.map((stat) => (
+                      <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-100">
+                        <p class="font-serif text-2xl sm:text-3xl text-teal-600 font-bold leading-tight mb-1">
+                          {stat.value}
+                        </p>
+                        <p class="text-slate-600 text-sm leading-snug">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="mt-8 relative pl-6 border-l-4 border-teal-400">
+                    <svg
+                      class="absolute -top-3 -left-3 w-8 h-8 text-teal-200"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                    <p class="text-slate-700 italic leading-relaxed mb-2">&ldquo;{cs.quote}&rdquo;</p>
+                    <p class="text-teal-600 text-sm font-semibold">&mdash; {cs.quoteAttribution}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+              <ScrollReveal direction="left" delay={100}>
+                <div class="relative">
+                  <img
+                    src={cs.image}
+                    alt={cs.imageAlt}
+                    class="rounded-2xl shadow-xl w-full object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          Ready to See Similar Results?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Get your free revenue cycle assessment and discover what CPS can
+          do for your practice.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/assessment" class="btn-primary">
+            <span>Get Free Assessment</span>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+          <a
+            href="/contact"
+            class="btn-outline-dark text-white border-white hover:bg-white hover:text-navy-900"
+          >
+            Contact Us
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

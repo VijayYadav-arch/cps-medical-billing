@@ -1,0 +1,144 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+import { InquiryForm } from '@/islands/InquiryForm';
+---
+
+<BaseLayout
+  title="Contáctenos"
+  description="Comuníquese con CPS Facturación Médica. Llame al 801-341-9304 o envíenos un mensaje — le respondemos en un día hábil."
+>
+  <!-- ===== PAGE HERO ===== -->
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/medical-reception.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+      <h1 class="font-serif text-4xl sm:text-5xl text-white mb-4">Contáctenos</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">
+        Nos encantaría saber de usted. Escríbanos y permítanos ayudarle a optimizar
+        su facturación.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT INFO CARDS ===== -->
+  <section class="bg-cream py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Phone -->
+          <div class="bg-white rounded-2xl p-8 text-center card-hover shadow-sm border border-slate-100">
+            <div class="icon-box mb-6 mx-auto">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+            </div>
+            <h3 class="font-serif text-xl text-navy-900 mb-2">Llámenos</h3>
+            <a href="tel:801-341-9304" class="text-teal-600 font-semibold text-lg hover:text-teal-700 transition-colors">
+              801-341-9304
+            </a>
+            <p class="text-slate-600 text-sm mt-2">Lunes a sábado</p>
+          </div>
+
+          <!-- Email -->
+          <div class="bg-white rounded-2xl p-8 text-center card-hover shadow-sm border border-slate-100">
+            <div class="icon-box mb-6 mx-auto">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <h3 class="font-serif text-xl text-navy-900 mb-2">Escríbanos</h3>
+            <a href="mailto:completeprosolns@gmail.com" class="text-teal-600 font-semibold text-lg hover:text-teal-700 transition-colors">
+              completeprosolns@gmail.com
+            </a>
+            <p class="text-slate-600 text-sm mt-2">Le respondemos en 24 horas</p>
+          </div>
+
+          <!-- Hours -->
+          <div class="bg-white rounded-2xl p-8 text-center card-hover shadow-sm border border-slate-100">
+            <div class="icon-box mb-6 mx-auto">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="font-serif text-xl text-navy-900 mb-2">Horario de atención</h3>
+            <p class="text-teal-600 font-semibold text-lg">Lunes a sábado</p>
+            <p class="text-slate-600 text-sm mt-2">10:00 a. m. – 6:00 p. m.</p>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT FORM ===== -->
+  <section class="bg-white py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-5 gap-16">
+        <!-- Left Column -->
+        <div class="lg:col-span-2">
+          <ScrollReveal direction="left">
+            <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+              Póngase en contacto
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-6">
+              Envíenos un mensaje
+            </h2>
+            <div class="section-line mb-8" />
+            <p class="text-slate-600 leading-relaxed mb-8">
+              Ya sea que tenga preguntas sobre nuestros servicios, necesite ayuda
+              para optimizar su facturación o quiera conversar sobre cómo
+              podemos apoyar a su consultorio, estamos para ayudarle. Complete
+              el formulario y nuestro equipo le responderá a la brevedad.
+            </p>
+            <div class="flex items-center gap-3 text-sm text-slate-600 mb-8">
+              <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Normalmente respondemos en un día hábil</span>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+              <img
+                src="/images/medical-reception.jpg"
+                alt="Recepción de la oficina médica CPS"
+                width="500"
+                height="350"
+                loading="lazy"
+                class="w-full h-[250px] object-cover"
+              />
+            </div>
+          </ScrollReveal>
+        </div>
+
+        <!-- Right Column - Form -->
+        <div class="lg:col-span-3">
+          <ScrollReveal direction="right">
+            <InquiryForm
+              client:load
+              locale="es"
+              title="Envíenos un mensaje"
+              submitLabel="Enviar mensaje"
+              messageLabel="Mensaje"
+              messagePlaceholder="Cuéntenos más sobre sus necesidades..."
+            />
+          </ScrollReveal>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="hero-gradient py-16">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <p class="text-lg text-slate-300">
+        ¿Prefiere hablar? Llámenos directamente al{' '}
+        <a
+          href="tel:801-341-9304"
+          class="text-teal-400 font-semibold hover:text-teal-300 transition-colors"
+        >
+          801-341-9304
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

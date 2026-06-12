@@ -1,0 +1,276 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+const faqs = [
+  {
+    question: "¿Qué servicios de facturación médica ofrece CPS?",
+    answer:
+      "CPS ofrece gestión integral del ciclo de ingresos: envío de reclamos, registro de pagos, gestión de denegaciones, seguimiento de cuentas por cobrar, verificación de elegibilidad, inscripción de pagadores, credencialización e informes mensuales detallados. Nos especializamos en facturación de hospicio, salud en el hogar y cuidados paliativos.",
+  },
+  {
+    question: "¿Cómo funciona externalizar la facturación con CPS?",
+    answer:
+      "El proceso es sencillo. Comenzamos con una evaluación gratuita de sus operaciones de facturación actuales. Una vez incorporado, nuestro equipo se integra con su sistema EMR, asume el envío y seguimiento de reclamos y le brinda informes financieros periódicos. Usted mantiene visibilidad total mediante nuestro panel de informes.",
+  },
+  {
+    question: "¿Con qué sistemas EMR se integran?",
+    answer:
+      "Trabajamos con todos los principales sistemas EMR de salud, incluidos Axxess, HCHB (Homecare Homebase), MatrixCare, Brightree, KanTime, Netsmart, WellSky y muchos otros. Si utiliza un sistema que no aparece, contáctenos &mdash; probablemente podamos integrarnos con él.",
+  },
+  {
+    question: "¿Cuánto tarda el proceso de incorporación?",
+    answer:
+      "La incorporación típica toma de 2 a 4 semanas. Esto incluye la configuración del acceso al EMR, revisión de datos históricos, verificación de inscripción de pagadores y capacitación del personal en nuestro flujo de trabajo. Nos ocupamos del trabajo pesado para que la transición sea fluida para su equipo.",
+  },
+  {
+    question: "¿Exigen contratos a largo plazo?",
+    answer:
+      "No. Ofrecemos acuerdos flexibles mes a mes. Creemos que nuestros resultados deben ganarse su confianza continua, no un contrato. La mayoría de nuestros clientes permanecen con nosotros por el valor que entregamos, no porque estén atados.",
+  },
+  {
+    question: "¿Cómo manejan los reclamos denegados?",
+    answer:
+      "Tenemos un proceso estructurado de gestión de denegaciones en 5 pasos: identificación inmediata, análisis de causa raíz, acción correctiva, reenvío o apelación oportunos y prevención. Nuestro proceso recupera en promedio el 65 % de los reclamos inicialmente denegados.",
+  },
+  {
+    question: "¿Qué informes recibiré?",
+    answer:
+      "Recibirá informes mensuales integrales que incluyen resumen de cobranzas, análisis de antigüedad de A/R, tasas y tendencias de denegaciones, combinación de pagadores y proyecciones de ingresos. También brindamos acceso en tiempo real a las métricas clave mediante nuestro panel de informes.",
+  },
+  {
+    question: "¿Están seguros los datos de mis pacientes con CPS?",
+    answer:
+      "Por supuesto. Cumplimos plenamente con HIPAA y seguimos estrictos protocolos de seguridad de datos. Todos los datos se cifran en tránsito y en reposo. Firmamos Acuerdos de Socio Comercial (BAA) con todos los clientes y realizamos auditorías de seguridad periódicas.",
+  },
+  {
+    question: "¿Cuál es su modelo de precios?",
+    answer:
+      "Ofrecemos precios transparentes basados en porcentaje, que típicamente oscilan entre el 4 % y el 8 % de las cobranzas, según el tamaño y la especialidad de su consultorio. No hay cargos ocultos ni costos de configuración. Solo paga cuando nosotros cobramos. Visite nuestra página de precios para ver los niveles detallados.",
+  },
+  {
+    question: "¿Cómo empiezo con CPS?",
+    answer:
+      "Empezar es fácil. Solicite una evaluación gratuita de facturación en nuestro sitio web o llámenos al 801-341-9304. Nuestro equipo revisará sus operaciones actuales, identificará oportunidades de mejora y le entregará una propuesta personalizada. Sin costo ni compromiso.",
+  },
+  {
+    question: "¿Trabajan con consultorios pequeños o solo con agencias grandes?",
+    answer:
+      "Trabajamos con consultorios de todos los tamaños, desde profesionales independientes hasta grandes agencias con múltiples sedes. Nuestros precios se ajustan a su volumen, por lo que los consultorios más pequeños reciben el mismo servicio de calidad a un costo apropiado. De hecho, nos especializamos en ayudar a agencias pequeñas y medianas a operar al nivel de las empresas grandes.",
+  },
+  {
+    question: "¿Qué pasa si cambiamos de empresa de facturación a mitad de año?",
+    answer:
+      "La transición entre empresas de facturación es más sencilla de lo que muchas agencias creen. Gestionamos la transición por usted, incluyendo la limpieza histórica de reclamos, la configuración de acceso al EMR y la reinscripción de pagadores cuando sea necesario. La mayoría de los clientes completan la transición en 2 a 4 semanas sin interrupción de ingresos. También manejamos cualquier reclamo huérfano de su empresa anterior.",
+  },
+  {
+    question: "¿Ayudan con la credencialización e inscripción de pagadores?",
+    answer:
+      "Sí. La credencialización e inscripción de pagadores son servicios estándar que brindamos a todos los clientes. Esto incluye la inscripción inicial con Medicare, Medicaid y pagadores comerciales, gestión del perfil CAQH, ciclos de recredencialización y la incorporación de nuevos médicos o servicios a inscripciones existentes. Una credencialización adecuada es la base de una facturación limpia.",
+  },
+  {
+    question: "¿Cómo manejan el cumplimiento de las regulaciones de OIG y CMS?",
+    answer:
+      "El cumplimiento está integrado en cada aspecto de nuestro servicio. Mantenemos conocimiento actualizado de la orientación de OIG, las actualizaciones regulatorias de CMS y los requisitos específicos de cada estado. Nuestro programa de cumplimiento incluye auditorías internas mensuales, requisitos de certificación del personal, políticas y procedimientos documentados, e investigación rápida de cualquier problema potencial. Brindamos actualizaciones trimestrales de cumplimiento a los clientes.",
+  },
+  {
+    question: "¿Qué tipos de informes proporcionan?",
+    answer:
+      "Nuestro conjunto estándar de informes incluye: informes diarios de envío y aceptación de reclamos, seguimiento semanal de A/R y denegaciones, desempeño financiero mensual integral con tendencias, revisiones estratégicas trimestrales con benchmarking y acceso en tiempo real al panel para todas las métricas clave. También brindamos informes personalizados a solicitud para necesidades operativas específicas o presentaciones a juntas.",
+  },
+  {
+    question: "¿Trabajan con pagadores comerciales y planes Managed Medicare/Medicaid?",
+    answer:
+      "Sí. Manejamos todos los tipos de pagadores, incluidos Medicare tradicional, planes Medicare Advantage, Medicaid tradicional, organizaciones de atención administrada de Medicaid, seguros comerciales (Blue Cross, United, Aetna, Cigna, Humana, etc.), TRICARE, indemnización laboral y pago privado. Cada pagador tiene reglas específicas y nuestro equipo se mantiene actualizado en todas ellas.",
+  },
+  {
+    question: "¿Qué tan rápido podemos esperar resultados después de asociarnos con CPS?",
+    answer:
+      "La mayoría de los clientes ven mejoras medibles en los primeros 30 a 60 días, incluido un envío de reclamos más rápido, menores tasas de denegación y mejor flujo de efectivo. La optimización completa del ciclo de ingresos toma típicamente entre 90 y 120 días a medida que completamos la limpieza histórica e implementamos todas las mejoras. En 12 meses, nuestros clientes suelen ver aumentos de ingresos del 15 % al 25 % respecto a sus operaciones previas.",
+  },
+  {
+    question: "¿Qué pasa si actualmente tenemos contrato con otra empresa de facturación?",
+    answer:
+      "Hemos ayudado a muchos clientes a navegar transiciones contractuales. Podemos revisar su contrato actual en busca de cláusulas de terminación y ayudarle a planificar una salida en regla. También podemos operar en paralelo durante un período de transición si su contrato así lo exige. Contáctenos para hablar sobre su situación específica.",
+  },
+];
+
+const categories = [
+  {
+    title: "Servicios y alcance",
+    desc: "Conozca qué ofrecemos, cómo trabajamos y qué incluyen nuestros servicios",
+    icon: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z",
+  },
+  {
+    title: "Precios y contratos",
+    desc: "Comprenda nuestro modelo de precios, los términos del contrato y qué esperar financieramente",
+    icon: "M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "Seguridad y cumplimiento",
+    desc: "Conozca nuestro cumplimiento de HIPAA, seguridad de datos y prácticas de auditoría",
+    icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: "es-US",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+---
+<BaseLayout
+  title="Preguntas frecuentes"
+  description="Respuestas a las preguntas comunes sobre los servicios de facturación médica de CPS, precios, incorporación y más."
+>
+  {/* ===== JSON-LD STRUCTURED DATA ===== */}
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  {/* ===== PAGE HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/online-consultation.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+            ¿Tiene preguntas?
+          </span>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+            Preguntas frecuentes
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Todo lo que necesita saber sobre nuestros servicios de facturación
+            médica
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== FAQ INTRO WITH ILLUSTRATION ===== */}
+  <section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-3 gap-8">
+        {categories.map((cat) => (
+          <div class="bg-cream rounded-2xl p-6 border border-slate-100 text-center hover:shadow-lg transition-shadow">
+            <div class="inline-flex w-14 h-14 rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 items-center justify-center mb-4">
+              <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon} />
+              </svg>
+            </div>
+            <h3 class="font-serif text-lg text-navy-900 mb-2">{cat.title}</h3>
+            <p class="text-slate-600 text-sm">{cat.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ===== FAQ ACCORDION ===== */}
+  <section class="bg-cream py-24">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8">
+      <ScrollReveal direction="stagger">
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+              <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-navy-900 hover:text-teal-600 transition-colors">
+                <span>{faq.question}</span>
+                <svg
+                  class="w-5 h-5 text-slate-400 flex-shrink-0 ml-4 group-open:rotate-180 transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                {faq.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== STILL HAVE QUESTIONS ===== */}
+  <section class="bg-white py-16">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-3">
+          ¿Aún tiene preguntas?
+        </h2>
+        <div class="section-line mx-auto mb-10" />
+      </ScrollReveal>
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-cream rounded-xl p-6 text-center card-hover">
+            <div class="flex justify-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center">
+                <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="font-serif text-xl text-navy-900 mb-2">Llámenos</h3>
+            <a href="tel:801-341-9304" class="text-teal-600 font-semibold text-lg hover:text-teal-700 transition-colors">
+              801-341-9304
+            </a>
+            <p class="text-slate-600 text-sm mt-2">Lun&ndash;sáb, 10 a. m.&ndash;6 p. m.</p>
+          </div>
+
+          <div class="bg-cream rounded-xl p-6 text-center card-hover">
+            <div class="flex justify-center mb-4">
+              <div class="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center">
+                <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="font-serif text-xl text-navy-900 mb-2">Escríbanos</h3>
+            <a href="mailto:completeprosolns@gmail.com" class="text-teal-600 font-semibold hover:text-teal-700 transition-colors break-all">
+              completeprosolns@gmail.com
+            </a>
+            <p class="text-slate-600 text-sm mt-2">Respuesta en 24 horas</p>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          ¿Listo para comenzar?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Permita que nuestros expertos se ocupen de su facturación para que
+          usted pueda enfocarse en sus pacientes.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/es/contact" class="btn-primary">
+            <span>Evaluación gratuita</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/es/pricing" class="btn-outline-dark text-white border-white hover:bg-white hover:text-navy-900">
+            Ver precios
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

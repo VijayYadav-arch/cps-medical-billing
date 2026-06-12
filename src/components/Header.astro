@@ -1,0 +1,267 @@
+---
+import {
+  enPathOf,
+  getLocale,
+  pathFor,
+  SPANISH_TRANSLATED_PATHS,
+  tr,
+} from '@/lib/i18n';
+
+const locale = getLocale(Astro.url);
+const linkKeys = [
+  { en: '/', key: 'nav.home' },
+  { en: '/services', key: 'nav.services' },
+  { en: '/case-studies', key: 'nav.caseStudies' },
+  { en: '/pricing', key: 'nav.pricing' },
+  { en: '/about', key: 'nav.about' },
+  { en: '/blog', key: 'nav.blog' },
+  { en: '/contact', key: 'nav.contact' },
+];
+const links = linkKeys.map((entry) => ({
+  href: pathFor(locale, entry.en),
+  label: tr(locale, entry.key),
+}));
+
+const pathname = Astro.url.pathname;
+const normalizedPath = pathname.length > 1 && pathname.endsWith('/')
+  ? pathname.slice(0, -1)
+  : pathname;
+const isHome = normalizedPath === '/' || normalizedPath === '' || normalizedPath === '/es';
+
+// Language switcher: if the current page has a Spanish mirror, swap to it.
+// Otherwise route to the localized home so the user lands somewhere coherent.
+const enEquivalent = enPathOf(normalizedPath || '/');
+const otherLocale = locale === 'en' ? 'es' : 'en';
+const otherLocaleHref = SPANISH_TRANSLATED_PATHS.has(enEquivalent)
+  ? pathFor(otherLocale, enEquivalent)
+  : pathFor(otherLocale, '/');
+const otherLocaleLabel = otherLocale === 'es' ? 'Español' : 'English';
+---
+<nav
+  id="site-nav"
+  class={`nav-fixed fixed top-0 left-0 right-0 z-50 ${isHome ? 'bg-transparent' : 'nav-scrolled'}`}
+  data-is-home={isHome ? 'true' : 'false'}
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      {/* Logo */}
+      <a href="/" class="flex items-center" aria-label="CPS Medical Billing home">
+        <img
+          id="site-logo"
+          src={isHome ? '/logo-white.svg' : '/logo.svg'}
+          data-logo-default="/logo.svg"
+          data-logo-home="/logo-white.svg"
+          alt="CPS Medical Billing"
+          width="200"
+          height="56"
+          class="h-12 w-auto"
+        />
+      </a>
+
+      {/* Desktop Nav */}
+      <div class="hidden lg:flex items-center gap-8">
+        {links.map((link) => {
+          const active = normalizedPath === link.href || (link.href !== '/' && normalizedPath.startsWith(link.href));
+          const baseColor = active
+            ? 'text-teal-500'
+            : (isHome ? 'text-white/90' : 'text-slate-700');
+          return (
+            <a
+              href={link.href}
+              class={`nav-link text-[15px] font-medium ${baseColor}`}
+              data-nav-link
+              data-active={active ? 'true' : 'false'}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+        <a
+          href="/portal/login"
+          class={`ml-2 text-sm font-medium transition-colors ${isHome ? 'text-white/80 hover:text-white' : 'text-slate-700 hover:text-teal-600'}`}
+          data-nav-secondary
+        >
+          {tr(locale, 'cta.clientLogin')}
+        </a>
+        <a
+          href={pathFor(locale, '/inquiry')}
+          class={`text-sm font-medium transition-colors ${isHome ? 'text-teal-300 hover:text-white' : 'text-teal-600 hover:text-teal-700'}`}
+          data-nav-signup
+        >
+          {tr(locale, 'cta.signUpFree')}
+        </a>
+        <a
+          href={pathFor(locale, '/assessment')}
+          class={`nav-inquiry px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 ${
+            isHome
+              ? 'bg-white/15 text-white border border-white/25 hover:bg-white/25'
+              : 'bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-md'
+          }`}
+          data-nav-cta
+        >
+          {tr(locale, 'cta.freeAssessment')}
+        </a>
+        <a
+          href={otherLocaleHref}
+          class={`text-sm font-medium underline-offset-4 hover:underline ${isHome ? 'text-white/80 hover:text-white' : 'text-slate-700 hover:text-teal-600'}`}
+          data-nav-locale
+          hreflang={otherLocale}
+          aria-label={`Switch to ${otherLocaleLabel}`}
+        >
+          {otherLocaleLabel}
+        </a>
+      </div>
+
+      {/* Mobile Hamburger */}
+      <button
+        id="mobile-menu-toggle"
+        class={`lg:hidden p-2 rounded-lg transition-colors ${isHome ? 'text-white' : 'text-slate-800'}`}
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg id="mobile-menu-icon-open" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="mobile-menu-icon-close" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+{/* Mobile Overlay */}
+<div id="mobile-overlay" class="mobile-overlay fixed inset-0 bg-black/50 z-40"></div>
+
+{/* Mobile Menu */}
+<div
+  id="mobile-menu"
+  class="mobile-menu fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white z-50 shadow-2xl"
+>
+  <div class="p-6">
+    <div class="flex items-center justify-between mb-8">
+      <img src="/logo.svg" alt="CPS Medical Billing" width="140" height="40" class="h-10 w-auto" />
+      <button
+        id="mobile-menu-close"
+        class="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+        aria-label="Close menu"
+      >
+        <svg class="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col gap-1">
+      {links.map((link) => {
+        const active = normalizedPath === link.href || (link.href !== '/' && normalizedPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class={`px-4 py-3 rounded-lg text-[15px] font-medium transition-colors ${
+              active ? 'bg-teal-50 text-teal-700' : 'text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+      <a href={pathFor(locale, '/assessment')} class="mt-4 btn-primary text-center justify-center text-sm">
+        <span>{tr(locale, 'cta.freeAssessment')}</span>
+      </a>
+      <a
+        href={otherLocaleHref}
+        class="mt-3 text-center text-sm font-medium text-slate-700 hover:text-teal-600 underline-offset-4 hover:underline"
+        hreflang={otherLocale}
+        aria-label={`Switch to ${otherLocaleLabel}`}
+      >
+        {otherLocaleLabel}
+      </a>
+    </div>
+    <div class="mt-8 pt-6 border-t border-slate-100">
+      <p class="text-sm text-slate-500">{tr(locale, 'cta.callUs')}</p>
+      <a href="tel:801-341-9304" class="text-lg font-semibold text-navy-900 mt-1 block">
+        801-341-9304
+      </a>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const nav = document.getElementById('site-nav');
+    const logo = document.getElementById('site-logo');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const overlay = document.getElementById('mobile-overlay');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('mobile-menu-icon-open');
+    const iconClose = document.getElementById('mobile-menu-icon-close');
+
+    if (!nav) return;
+    const isHome = nav.dataset.isHome === 'true';
+
+    function applyScrollState() {
+      const scrolled = window.scrollY > 40;
+      if (scrolled || !isHome) {
+        nav.classList.add('nav-scrolled');
+        nav.classList.remove('bg-transparent');
+      } else {
+        nav.classList.remove('nav-scrolled');
+        nav.classList.add('bg-transparent');
+      }
+      // Swap logo on home page when scrolled
+      if (logo && isHome) {
+        logo.setAttribute('src', scrolled ? logo.dataset.logoDefault : logo.dataset.logoHome);
+      }
+      // Swap hamburger color on home page when scrolled
+      if (toggle && isHome) {
+        if (scrolled) {
+          toggle.classList.remove('text-white');
+          toggle.classList.add('text-slate-800');
+        } else {
+          toggle.classList.add('text-white');
+          toggle.classList.remove('text-slate-800');
+        }
+      }
+      // Swap nav link colors on home page when scrolled
+      if (isHome) {
+        document.querySelectorAll('[data-nav-link]').forEach((el) => {
+          const active = el.dataset.active === 'true';
+          if (active) return;
+          if (scrolled) {
+            el.classList.remove('text-white/90');
+            el.classList.add('text-slate-700');
+          } else {
+            el.classList.add('text-white/90');
+            el.classList.remove('text-slate-700');
+          }
+        });
+      }
+    }
+
+    function openMenu() {
+      menu?.classList.add('open');
+      overlay?.classList.add('open');
+      iconOpen?.classList.add('hidden');
+      iconClose?.classList.remove('hidden');
+      toggle?.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      menu?.classList.remove('open');
+      overlay?.classList.remove('open');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle?.addEventListener('click', () => {
+      if (menu?.classList.contains('open')) closeMenu();
+      else openMenu();
+    });
+    closeBtn?.addEventListener('click', closeMenu);
+    overlay?.addEventListener('click', closeMenu);
+
+    window.addEventListener('scroll', applyScrollState, { passive: true });
+    applyScrollState();
+  })();
+</script>

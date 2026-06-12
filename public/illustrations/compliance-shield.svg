@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1D3A"/>
+      <stop offset="100%" stop-color="#122a4f"/>
+    </linearGradient>
+    <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0f3f9"/>
+      <stop offset="100%" stop-color="#FAFAF5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" rx="16" fill="url(#shieldBg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="350" cy="50" r="40" fill="#0d9488" opacity="0.08"/>
+  <circle cx="50" cy="250" r="60" fill="#0B1D3A" opacity="0.05"/>
+
+  <!-- Shield -->
+  <g transform="translate(200, 150)">
+    <!-- Shield shape -->
+    <path d="M 0 -80 L 60 -60 L 60 10 Q 60 50 0 80 Q -60 50 -60 10 L -60 -60 Z" fill="url(#shieldGrad)"/>
+
+    <!-- Inner shield accent -->
+    <path d="M 0 -70 L 50 -52 L 50 8 Q 50 42 0 68 Q -50 42 -50 8 L -50 -52 Z" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
+
+    <!-- Checkmark -->
+    <path d="M -20 -5 L -8 10 L 22 -22" stroke="white" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- HIPAA text -->
+    <text x="0" y="45" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="700" fill="white" letter-spacing="2">HIPAA</text>
+  </g>
+
+  <!-- Floating badges -->
+  <g transform="translate(80, 120)">
+    <circle cx="0" cy="0" r="22" fill="white" stroke="#0d9488" stroke-width="1.5"/>
+    <text x="0" y="-2" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="700" fill="#0d9488">SOC 2</text>
+    <text x="0" y="8" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="6" font-weight="600" fill="#64748b">TYPE II</text>
+  </g>
+
+  <g transform="translate(320, 200)">
+    <circle cx="0" cy="0" r="22" fill="white" stroke="#0d9488" stroke-width="1.5"/>
+    <text x="0" y="-2" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="700" fill="#0d9488">AAPC</text>
+    <text x="0" y="8" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="6" font-weight="600" fill="#64748b">CERT</text>
+  </g>
+
+  <!-- Connection lines -->
+  <path d="M 105 120 Q 150 135 165 105" stroke="#0d9488" stroke-width="1" stroke-dasharray="2 3" opacity="0.4" fill="none"/>
+  <path d="M 295 200 Q 260 180 235 195" stroke="#0d9488" stroke-width="1" stroke-dasharray="2 3" opacity="0.4" fill="none"/>
+</svg>

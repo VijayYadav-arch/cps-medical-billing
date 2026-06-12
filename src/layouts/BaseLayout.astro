@@ -1,0 +1,149 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { enPathOf, getLocale, pathFor, SPANISH_TRANSLATED_PATHS } from '@/lib/i18n';
+
+export interface Props {
+  /**
+   * Page-specific title. By default `BaseLayout` appends ` | CPS Medical Billing` (the cps Next.js
+   * template). Pass `isDefaultTitle: true` for the home page to render the title verbatim with
+   * no suffix (the home title already carries the brand).
+   */
+  title: string;
+  isDefaultTitle?: boolean;
+  description?: string;
+  keywords?: string[];
+  canonical?: string;
+  og?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    imageWidth?: number;
+    imageHeight?: number;
+    imageAlt?: string;
+    type?: string;
+  };
+  twitter?: {
+    title?: string;
+    description?: string;
+    image?: string;
+  };
+  noindex?: boolean;
+}
+
+const {
+  title,
+  isDefaultTitle = false,
+  description,
+  keywords,
+  canonical,
+  og,
+  twitter,
+  noindex = false,
+} = Astro.props;
+
+const locale = getLocale(Astro.url);
+const htmlLang = locale === 'es' ? 'es-US' : 'en-US';
+const ogLocale = locale === 'es' ? 'es_US' : 'en_US';
+const SITE_NAME = locale === 'es' ? 'CPS Facturación Médica' : 'CPS Medical Billing';
+const TITLE_SUFFIX = ` | ${SITE_NAME}`;
+const fullTitle = isDefaultTitle ? title : `${title}${TITLE_SUFFIX}`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+
+// hreflang alternates: emit the localized counterpart of this page when one
+// exists. The pricing/contact/about/index pages are mirrored; for everything
+// else we still emit x-default -> the English path.
+const normalizedPath = Astro.url.pathname.length > 1 && Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname.slice(0, -1)
+  : Astro.url.pathname;
+const enEquivalent = enPathOf(normalizedPath || '/');
+const hasSpanishMirror = SPANISH_TRANSLATED_PATHS.has(enEquivalent);
+const alternateEn = hasSpanishMirror ? new URL(pathFor('en', enEquivalent), Astro.site).toString() : canonicalUrl;
+const alternateEs = hasSpanishMirror ? new URL(pathFor('es', enEquivalent), Astro.site).toString() : null;
+
+const ogTitle = og?.title ?? fullTitle;
+const ogDescription = og?.description ?? description ?? '';
+const ogImage = og?.image ?? '/images/banner3.jpg';
+const ogImageWidth = og?.imageWidth ?? 1200;
+const ogImageHeight = og?.imageHeight ?? 630;
+const ogImageAlt = og?.imageAlt ?? SITE_NAME;
+const ogType = og?.type ?? 'website';
+
+const twitterTitle = twitter?.title ?? fullTitle;
+const twitterDescription = twitter?.description ?? description ?? '';
+const twitterImage = twitter?.image ?? ogImage;
+
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: SITE_NAME,
+  description:
+    'Complete Professional Solutions for healthcare billing. Specializing in hospice, home health, and palliative care billing services.',
+  url: 'https://cpshealthcarebilling.com',
+  telephone: '801-341-9304',
+  email: 'completeprosolns@gmail.com',
+  openingHours: 'Mo-Sa 10:00-18:00',
+  areaServed: 'United States',
+  serviceType: [
+    'Medical Billing',
+    'Revenue Cycle Management',
+    'Hospice Billing',
+    'Home Health Billing',
+    'Palliative Care Billing',
+  ],
+};
+---
+<!DOCTYPE html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+    <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={alternateEn} />
+    {alternateEs && <link rel="alternate" hreflang="es" href={alternateEs} />}
+    {alternateEs && <link rel="alternate" hreflang="x-default" href={alternateEn} />}
+
+    {/* Open Graph */}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={twitterTitle} />
+    <meta name="twitter:description" content={twitterDescription} />
+    <meta name="twitter:image" content={twitterImage} />
+
+    {/* Fonts (matches cps next/font selections) */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    {/* Favicons */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+
+    {/* LocalBusiness JSON-LD (cps parity) */}
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+  </head>
+  <body class="font-sans text-slate-800 bg-cream antialiased">
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>

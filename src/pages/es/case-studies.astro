@@ -1,0 +1,307 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+interface StatCard {
+  value: string;
+  label: string;
+}
+
+interface CaseStudy {
+  id: string;
+  bg: string;
+  imageFirst: boolean;
+  image: string;
+  imageAlt: string;
+  category: string;
+  title: string;
+  client: string;
+  challenge: string;
+  solution: string;
+  stats: StatCard[];
+  quote: string;
+  quoteAttribution: string;
+}
+
+const CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "hospice",
+    bg: "bg-cream",
+    imageFirst: true,
+    image: "/images/hospice-care.jpg",
+    imageAlt: "Profesionales de hospicio",
+    category: "Hospicio",
+    title: "Aumento del 22 % en cobranzas en 90 días",
+    client: "Agencia mediana de hospicio | 85 pacientes censados al día",
+    challenge:
+      "La agencia luchaba con una tasa de denegación del 15 % y envíos de reclamos inconsistentes. Los ingresos disminuían a pesar del crecimiento del censo de pacientes.",
+    solution:
+      "CPS implementó procesamiento diario de reclamos, estableció flujos de trabajo de seguimiento de denegaciones y renegoció contratos con pagadores.",
+    stats: [
+      { value: "+22 %", label: "aumento en cobranzas" },
+      { value: "15 % → 4 %", label: "tasa de denegación" },
+      { value: "45 → 28", label: "días en A/R" },
+    ],
+    quote:
+      "CPS no solo mejoró nuestra facturación, transformó todo nuestro ciclo de ingresos.",
+    quoteAttribution: "Directora de operaciones",
+  },
+  {
+    id: "home-health",
+    bg: "bg-white",
+    imageFirst: false,
+    image: "/images/home-health.jpg",
+    imageAlt: "Cuidadora de salud en el hogar con paciente",
+    category: "Salud en el hogar",
+    title: "A/R reducido de 45 a 28 días",
+    client: "Agencia en crecimiento de salud en el hogar | 120 pacientes",
+    challenge:
+      "El crecimiento rápido generó retrasos en la facturación. Los reclamos se enviaban tarde, las cuentas por cobrar se acumulaban y la agencia carecía de visibilidad financiera.",
+    solution:
+      "CPS asumió la gestión completa del ciclo de ingresos, implementó envíos de NOA el mismo día y entregó paneles financieros mensuales.",
+    stats: [
+      { value: "45 → 28", label: "días en A/R" },
+      { value: "98,5 %", label: "tasa de reclamos limpios" },
+      { value: "+$45 mil", label: "ingresos mensuales adicionales" },
+    ],
+    quote:
+      "Por fin tenemos visibilidad de nuestro ciclo de ingresos. Los informes mensuales por sí solos justifican la asociación.",
+    quoteAttribution: "Propietario de la agencia",
+  },
+  {
+    id: "palliative",
+    bg: "bg-cream",
+    imageFirst: true,
+    image: "/images/palliative-care.jpg",
+    imageAlt: "Médico de cuidados paliativos con paciente",
+    category: "Cuidados paliativos",
+    title: "$180 mil de ingresos recuperados el primer año",
+    client: "Consultorio privado de cuidados paliativos | 3 médicos",
+    challenge:
+      "El consultorio facturaba internamente con un solo empleado que carecía de conocimientos especializados en codificación de cuidados paliativos. La subcodificación y los cargos perdidos eran generalizados.",
+    solution:
+      "CPS realizó una auditoría integral de facturación, corrigió las prácticas de codificación y estableció la inscripción adecuada de los pagadores para todos los médicos.",
+    stats: [
+      { value: "$180 mil", label: "recuperados el primer año" },
+      { value: "+35 %", label: "aumento de ingresos por visita" },
+      { value: "Cero", label: "problemas de cumplimiento" },
+    ],
+    quote:
+      "No teníamos idea de cuánto dinero estábamos dejando sobre la mesa hasta que CPS nos lo mostró.",
+    quoteAttribution: "Administradora del consultorio",
+  },
+];
+---
+<BaseLayout
+  title="Casos de éxito"
+  description="Vea cómo CPS Facturación Médica ha ayudado a consultorios de salud a aumentar cobranzas, reducir días en A/R y recuperar ingresos perdidos."
+>
+  {/* ===== PAGE HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/partnership-handshake.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+            Historias de éxito de nuestros clientes
+          </span>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+            Casos de <span class="text-teal-400">éxito</span>
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Resultados reales de consultorios reales. Vea cómo CPS transforma
+            las operaciones de facturación.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== AGGREGATE RESULTS ===== */}
+  <section class="bg-cream py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <ScrollReveal direction="left">
+          <div>
+            <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+              Resultados en toda nuestra base de clientes
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-6">
+              Los números cuentan la historia
+            </h2>
+            <div class="section-line mb-8" />
+            <p class="text-slate-600 leading-relaxed mb-6">
+              Durante la última década, CPS ha entregado mejoras medibles de
+              forma consistente para consultorios de salud de todos los
+              tamaños. Los resultados a continuación representan el
+              desempeño agregado en nuestra base activa de clientes.
+            </p>
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">98 %</div>
+                <div class="text-sm text-slate-600">Tasa de cobranza promedio</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">22 %</div>
+                <div class="text-sm text-slate-600">Aumento de ingresos promedio</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">28</div>
+                <div class="text-sm text-slate-600">Días promedio en A/R</div>
+              </div>
+              <div>
+                <div class="text-3xl font-serif text-teal-600 font-bold">95 %</div>
+                <div class="text-sm text-slate-600">Retención de clientes</div>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal direction="right">
+          <img
+            src="/illustrations/revenue-growth.svg"
+            alt="Ilustración de gráfico de crecimiento de ingresos"
+            class="w-full h-auto rounded-2xl"
+          />
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== CASE STUDIES ===== */}
+  {CASE_STUDIES.map((cs) => (
+    <section class={`${cs.bg} py-24`}>
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          {cs.imageFirst ? (
+            <>
+              <ScrollReveal direction="left" delay={100}>
+                <div class="relative">
+                  <img src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover" />
+                </div>
+              </ScrollReveal>
+              <ScrollReveal direction="right" delay={200}>
+                <div>
+                  <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-semibold uppercase tracking-wider border border-teal-200 mb-4">
+                    {cs.category}
+                  </span>
+                  <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-2">
+                    {cs.title}
+                  </h2>
+                  <p class="text-slate-500 text-sm font-medium mb-5">{cs.client}</p>
+                  <div class="section-line mb-6" />
+                  <div class="mb-4">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Desafío
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">{cs.challenge}</p>
+                  </div>
+                  <div class="mb-6">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Solución
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">{cs.solution}</p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-4 mb-2">
+                    {cs.stats.map((stat) => (
+                      <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-100">
+                        <p class="font-serif text-2xl sm:text-3xl text-teal-600 font-bold leading-tight mb-1">
+                          {stat.value}
+                        </p>
+                        <p class="text-slate-600 text-sm leading-snug">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="mt-8 relative pl-6 border-l-4 border-teal-400">
+                    <svg class="absolute -top-3 -left-3 w-8 h-8 text-teal-200" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                    <p class="text-slate-700 italic leading-relaxed mb-2">&ldquo;{cs.quote}&rdquo;</p>
+                    <p class="text-teal-600 text-sm font-semibold">&mdash; {cs.quoteAttribution}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </>
+          ) : (
+            <>
+              <ScrollReveal direction="right" delay={200}>
+                <div>
+                  <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-semibold uppercase tracking-wider border border-teal-200 mb-4">
+                    {cs.category}
+                  </span>
+                  <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-2">
+                    {cs.title}
+                  </h2>
+                  <p class="text-slate-500 text-sm font-medium mb-5">{cs.client}</p>
+                  <div class="section-line mb-6" />
+                  <div class="mb-4">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Desafío
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">{cs.challenge}</p>
+                  </div>
+                  <div class="mb-6">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-teal-600 mb-1">
+                      Solución
+                    </p>
+                    <p class="text-slate-600 leading-relaxed text-sm">{cs.solution}</p>
+                  </div>
+                  <div class="grid grid-cols-3 gap-4 mb-2">
+                    {cs.stats.map((stat) => (
+                      <div class="bg-white rounded-xl p-4 text-center shadow-sm border border-slate-100">
+                        <p class="font-serif text-2xl sm:text-3xl text-teal-600 font-bold leading-tight mb-1">
+                          {stat.value}
+                        </p>
+                        <p class="text-slate-600 text-sm leading-snug">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="mt-8 relative pl-6 border-l-4 border-teal-400">
+                    <svg class="absolute -top-3 -left-3 w-8 h-8 text-teal-200" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                    <p class="text-slate-700 italic leading-relaxed mb-2">&ldquo;{cs.quote}&rdquo;</p>
+                    <p class="text-teal-600 text-sm font-semibold">&mdash; {cs.quoteAttribution}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+              <ScrollReveal direction="left" delay={100}>
+                <div class="relative">
+                  <img src={cs.image} alt={cs.imageAlt} class="rounded-2xl shadow-xl w-full object-cover" />
+                </div>
+              </ScrollReveal>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          ¿Listo para ver resultados similares?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Solicite su evaluación gratuita del ciclo de ingresos y descubra
+          lo que CPS puede hacer por su consultorio.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/es/contact" class="btn-primary">
+            <span>Solicitar evaluación gratuita</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/es/contact" class="btn-outline-dark text-white border-white hover:bg-white hover:text-navy-900">
+            Contáctenos
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

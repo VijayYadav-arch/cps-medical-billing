@@ -1,0 +1,390 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+const endpoints = [
+  { method: "GET", path: "/api/v1/patients", description: "Lista de pacientes (paginada)" },
+  { method: "POST", path: "/api/v1/patients", description: "Crear un paciente" },
+];
+
+const rateLimits = [
+  { plan: "Gratis", limit: "100 solicitudes/día" },
+  { plan: "Inicial", limit: "1.000 solicitudes/día" },
+  { plan: "Profesional", limit: "10.000 solicitudes/día" },
+  { plan: "Enterprise", limit: "100.000 solicitudes/día" },
+];
+
+function badgeColor(method: string): string {
+  if (method === "GET") return "bg-emerald-100 text-emerald-700";
+  if (method === "POST") return "bg-blue-100 text-blue-700";
+  if (method === "DELETE") return "bg-red-100 text-red-700";
+  return "bg-slate-100 text-slate-700";
+}
+
+const exampleRequest = `curl -X GET <your-api-host>/api/v1/patients \\
+  -H "Authorization: Bearer cps_sk_a1b2c3d4e5f6..."\\
+  -H "Content-Type: application/json"`;
+
+const paginatedRequest = `curl -X GET "<your-api-host>/api/v1/patients?page=2&pageSize=10" \\
+  -H "Authorization: Bearer cps_sk_a1b2c3d4e5f6..."`;
+
+const responseFormat = `{
+  "data": [ ... ],
+  "pagination": {
+    "total": 154,
+    "page": 2,
+    "pageSize": 10,
+    "totalPages": 16,
+    "hasMore": true
+  }
+}`;
+
+const rateLimitHeaders = `X-RateLimit-Limit: 10000
+X-RateLimit-Remaining: 9954
+X-RateLimit-Reset: 1713100800`;
+
+const errorFormat = `{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid API key"
+  }
+}`;
+---
+<BaseLayout
+  title="Documentación para desarrolladores"
+  description="Documentación de la API de CPS Facturación Médica. Aprenda a integrarse con nuestra API REST."
+>
+  {/* ===== PAGE HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/billing-paperwork.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+            Referencia de la API
+          </span>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+            Documentación de la API
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Integre CPS Facturación Médica con sus sistemas mediante nuestra
+            API RESTful. Gestione pacientes, reclamos, encuentros y más de
+            forma programática.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== AUTHENTICATION ===== */}
+  <section class="bg-cream py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+          Empezando
+        </span>
+        <h2 class="font-serif text-3xl text-navy-900 mt-3 mb-4">
+          Autenticación
+        </h2>
+        <div class="section-line mb-8" />
+
+        <div class="space-y-6 text-slate-600 leading-relaxed">
+          <p>
+            Todas las solicitudes a la API deben incluir una clave de API
+            válida en el encabezado{" "}
+            <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">Authorization</code>{" "}
+            usando el esquema Bearer.
+          </p>
+
+          <div class="space-y-4">
+            <h3 class="font-semibold text-navy-900 text-lg">1. Genere una clave de API</h3>
+            <p>
+              Vaya a <strong>Portal &rarr; API Keys</strong> para crear una
+              nueva clave de API. Las claves tienen el prefijo{" "}
+              <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">cps_sk_</code>{" "}
+              y se muestran completas solo una vez en el momento de la creación.
+              Guárdelas de forma segura.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="font-semibold text-navy-900 text-lg">2. Inclúyala en las solicitudes</h3>
+            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900">
+              <div class="px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 font-mono">
+                Solicitud de ejemplo
+              </div>
+              <pre class="p-4 overflow-x-auto text-sm text-slate-300 leading-relaxed"><code>{exampleRequest}</code></pre>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="font-semibold text-navy-900 text-lg">3. Alcances de las claves de API</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="px-4 py-3 text-left font-semibold text-navy-900">Alcance</th>
+                    <th class="px-4 py-3 text-left font-semibold text-navy-900">Permisos</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-sm">read</td>
+                    <td class="px-4 py-3">Acceso de solo lectura a todos los endpoints</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-sm">write</td>
+                    <td class="px-4 py-3">Acceso de lectura y creación a todos los endpoints</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-sm">admin</td>
+                    <td class="px-4 py-3">Acceso completo, incluida la gestión de webhooks</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== ENDPOINTS ===== */}
+  <section class="bg-white py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+          Referencia de la API
+        </span>
+        <h2 class="font-serif text-3xl text-navy-900 mt-3 mb-4">
+          Endpoints
+        </h2>
+        <div class="section-line mb-8" />
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-4 py-3 text-left font-semibold text-navy-900">Método</th>
+                <th class="px-4 py-3 text-left font-semibold text-navy-900">Ruta</th>
+                <th class="px-4 py-3 text-left font-semibold text-navy-900">Descripción</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              {endpoints.map((ep) => (
+                <tr class="hover:bg-slate-50/50">
+                  <td class="px-4 py-3">
+                    <span class={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-mono font-bold ${badgeColor(ep.method)}`}>
+                      {ep.method}
+                    </span>
+                  </td>
+                  <td class="px-4 py-3 font-mono text-sm text-navy-900">{ep.path}</td>
+                  <td class="px-4 py-3 text-slate-600">{ep.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== PAGINATION ===== */}
+  <section class="bg-cream py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+          Recuperación de datos
+        </span>
+        <h2 class="font-serif text-3xl text-navy-900 mt-3 mb-4">
+          Paginación
+        </h2>
+        <div class="section-line mb-8" />
+
+        <div class="space-y-6 text-slate-600 leading-relaxed">
+          <p>
+            Todos los endpoints de listado admiten paginación basada en página
+            mediante los parámetros{" "}
+            <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">page</code> y{" "}
+            <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">pageSize</code>.
+          </p>
+
+          <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900">
+            <div class="px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 font-mono">
+              Solicitud paginada
+            </div>
+            <pre class="p-4 overflow-x-auto text-sm text-slate-300 leading-relaxed"><code>{paginatedRequest}</code></pre>
+          </div>
+
+          <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900">
+            <div class="px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 font-mono">
+              Formato de respuesta
+            </div>
+            <pre class="p-4 overflow-x-auto text-sm text-slate-300 leading-relaxed"><code>{responseFormat}</code></pre>
+          </div>
+
+          <p>
+            El tamaño máximo de{" "}
+            <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">pageSize</code>{" "}
+            es <strong>100</strong>. Si no se especifica, el valor por defecto
+            es <strong>20</strong>.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== RATE LIMITS ===== */}
+  <section class="bg-white py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+          Límites de uso
+        </span>
+        <h2 class="font-serif text-3xl text-navy-900 mt-3 mb-4">
+          Límites de velocidad
+        </h2>
+        <div class="section-line mb-8" />
+
+        <div class="space-y-6 text-slate-600 leading-relaxed">
+          <p>
+            Las solicitudes a la API se limitan por organización según el
+            nivel de su plan. La información del límite de velocidad se
+            incluye en los encabezados de respuesta.
+          </p>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold text-navy-900">Plan</th>
+                  <th class="px-4 py-3 text-left font-semibold text-navy-900">Límite</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                {rateLimits.map((rl) => (
+                  <tr>
+                    <td class="px-4 py-3 font-medium text-navy-900">{rl.plan}</td>
+                    <td class="px-4 py-3">{rl.limit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="font-semibold text-navy-900 text-lg">Encabezados de respuesta</h3>
+          <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900">
+            <div class="px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 font-mono">
+              Encabezados del límite de velocidad
+            </div>
+            <pre class="p-4 overflow-x-auto text-sm text-slate-300 leading-relaxed"><code>{rateLimitHeaders}</code></pre>
+          </div>
+
+          <p>
+            Cuando se excede el límite, la API devuelve una respuesta{" "}
+            <code class="px-1.5 py-0.5 bg-slate-100 rounded text-sm font-mono text-navy-900">429 Too Many Requests</code>.
+            Espere hasta la fecha de restablecimiento antes de reintentar.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== ERROR FORMAT ===== */}
+  <section class="bg-white py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+          Manejo de errores
+        </span>
+        <h2 class="font-serif text-3xl text-navy-900 mt-3 mb-4">
+          Respuestas de error
+        </h2>
+        <div class="section-line mb-8" />
+
+        <div class="space-y-6 text-slate-600 leading-relaxed">
+          <p>
+            Todos los errores siguen un formato JSON consistente con un
+            código legible por máquina y un mensaje legible por humanos.
+          </p>
+
+          <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900">
+            <div class="px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 font-mono">
+              Formato de respuesta de error
+            </div>
+            <pre class="p-4 overflow-x-auto text-sm text-slate-300 leading-relaxed"><code>{errorFormat}</code></pre>
+          </div>
+
+          <h3 class="font-semibold text-navy-900 text-lg">Códigos de error comunes</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold text-navy-900">Estado HTTP</th>
+                  <th class="px-4 py-3 text-left font-semibold text-navy-900">Código</th>
+                  <th class="px-4 py-3 text-left font-semibold text-navy-900">Descripción</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="px-4 py-3 font-mono">400</td>
+                  <td class="px-4 py-3 font-mono">BAD_REQUEST</td>
+                  <td class="px-4 py-3">Parámetros de solicitud faltantes o inválidos</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono">401</td>
+                  <td class="px-4 py-3 font-mono">UNAUTHORIZED</td>
+                  <td class="px-4 py-3">Clave de API faltante o inválida</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono">403</td>
+                  <td class="px-4 py-3 font-mono">FORBIDDEN</td>
+                  <td class="px-4 py-3">Alcance de la clave de API insuficiente</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono">404</td>
+                  <td class="px-4 py-3 font-mono">NOT_FOUND</td>
+                  <td class="px-4 py-3">Recurso no encontrado</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono">429</td>
+                  <td class="px-4 py-3 font-mono">RATE_LIMITED</td>
+                  <td class="px-4 py-3">Límite de velocidad excedido</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          ¿Listo para comenzar?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Inicie sesión en su portal para crear una clave de API y comenzar
+          a construir integraciones.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/portal/api-keys" class="btn-primary">
+            <span>Gestionar claves de API</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/es/contact" class="btn-outline-dark text-white border-white hover:bg-white hover:text-navy-900">
+            <span>Contactar soporte</span>
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,690 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+const expertise = [
+  {
+    title: 'Medicare',
+    desc: 'Procesamiento experto de reclamos y gestión de planes Medicare Advantage. Aseguramos el reembolso máximo mediante documentación detallada y envíos oportunos.',
+    stats: '98 % de reclamos limpios',
+    gradient: 'from-blue-500/10 to-teal-500/10',
+    borderGradient: 'from-blue-500 to-teal-500',
+    icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z',
+  },
+  {
+    title: 'Medicaid',
+    desc: 'Navegamos los requisitos específicos de cada estado con precisión. Gestionamos la facturación de Managed Care Organizations y aseguramos el cumplimiento.',
+    stats: 'Servicio en los 50 estados',
+    gradient: 'from-teal-500/10 to-emerald-500/10',
+    borderGradient: 'from-teal-500 to-emerald-500',
+    icon: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z',
+  },
+  {
+    title: 'Seguros privados',
+    desc: 'Soporte integral de facturación para todos los principales aseguradores comerciales. Maximizamos sus ingresos en todos los pagadores.',
+    stats: 'Todos los grandes pagadores',
+    gradient: 'from-amber-500/10 to-teal-500/10',
+    borderGradient: 'from-amber-500 to-teal-500',
+    icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z',
+  },
+];
+
+const stats = [
+  {
+    value: '98 %',
+    label: 'Tasa de cobranza',
+    icon: 'M2.25 18L9 11.25l4.306 4.306a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941',
+  },
+  {
+    value: '95 %+',
+    label: 'Aceptación al primer intento',
+    icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z',
+  },
+  {
+    value: '24 h',
+    label: 'Respuesta de reclamos',
+    icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    value: '10+',
+    label: 'Años de experiencia',
+    icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+  },
+];
+
+const howItWorks = [
+  { step: '01', title: 'Envío', desc: 'Sus reclamos se reciben y se validan en menos de 24 horas desde el servicio', icon: 'M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71L21 15M3 15V9m0 0V3m0 6h18m0 0v6m0-6l-2.772.693a9 9 0 01-6.208-.682l-.108-.054a9 9 0 00-6.086-.71L3 9' },
+  { step: '02', title: 'Procesamiento', desc: 'Codificadores expertos revisan, depuran y envían a todos los pagadores de forma electrónica', icon: 'M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75' },
+  { step: '03', title: 'Seguimiento', desc: 'Gestión rigurosa de A/R y resolución de denegaciones para maximizar pagos', icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99' },
+  { step: '04', title: 'Informes', desc: 'Informes mensuales transparentes con análisis prácticos para su consultorio', icon: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z' },
+];
+
+const services = [
+  {
+    title: 'Cobranza',
+    desc: 'Optimización de ingresos y estrategias de reembolso para maximizar los ingresos de su consultorio.',
+    iconPath: 'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+  {
+    title: 'Informes mensuales',
+    desc: 'Análisis detallado del desempeño financiero que lo mantiene informado sobre su ciclo de ingresos.',
+    iconPath: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z',
+  },
+  {
+    title: 'Configuración de pagadores',
+    desc: 'Establecimiento de relaciones con pagadores y gestión de credencialización para operaciones sin contratiempos.',
+    iconPath: 'M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75',
+  },
+  {
+    title: 'Consultoría',
+    desc: 'Mejora de procesos y orientación de cumplimiento de la mano de nuestros expertos en facturación.',
+    iconPath: 'M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155',
+  },
+];
+
+const benefits = [
+  {
+    title: 'Facturación y seguimiento diario',
+    desc: 'La facturación proactiva diaria y el seguimiento riguroso aseguran un crecimiento continuo de los ingresos para su consultorio.',
+  },
+  {
+    title: 'Envío oportuno de reclamos',
+    desc: 'El procesamiento expedito de reclamos significa pagos más rápidos y un mejor flujo de efectivo para su organización.',
+  },
+  {
+    title: 'Gestión integral de pagadores',
+    desc: 'Manejamos las relaciones con todos los pagadores, gestionando denegaciones y apelaciones para maximizar la cobranza.',
+  },
+  {
+    title: 'Recuperación de ingresos',
+    desc: 'Nuestro enfoque basado en auditorías recupera pagos insuficientes y reclamos pendientes que otros pasan por alto.',
+  },
+];
+
+const testimonials = [
+  {
+    quote: 'CPS aumentó nuestras cobranzas un 22 % en los primeros 90 días. Su equipo responde rápido, es competente y realmente entiende la facturación de hospicio.',
+    name: 'Sarah M.',
+    initials: 'SM',
+    role: 'Directora de operaciones',
+    company: 'Agencia mediana de hospicio',
+    metric: '+22 %',
+    metricLabel: 'Cobranzas',
+    color: 'from-teal-500 to-teal-700',
+  },
+  {
+    quote: 'Cambiar a CPS fue la mejor decisión para nuestro consultorio. Pasamos de más de 45 días en A/R a menos de 30 y nuestra tasa de denegaciones bajó significativamente.',
+    name: 'James T.',
+    initials: 'JT',
+    role: 'Administrador',
+    company: 'Agencia de salud en el hogar',
+    metric: '28 días',
+    metricLabel: 'Tiempo en A/R',
+    color: 'from-navy-700 to-navy-900',
+  },
+  {
+    quote: 'Sus informes mensuales nos dan visibilidad completa del ciclo de ingresos. Por fin sentimos que tenemos el control de nuestro proceso de facturación.',
+    name: 'Linda K.',
+    initials: 'LK',
+    role: 'Propietaria',
+    company: 'Consultorio de cuidados paliativos',
+    metric: '100 %',
+    metricLabel: 'Visibilidad',
+    color: 'from-amber-500 to-amber-700',
+  },
+];
+
+const emrs = ['Axxess', 'HCHB', 'MatrixCare', 'Brightree', 'KanTime', 'Netsmart', 'WellSky'];
+---
+<BaseLayout
+  title="CPS Facturación Médica | Soluciones Profesionales Completas"
+  isDefaultTitle={true}
+  description="CPS es una empresa reconocida de facturación médica que atiende a organizaciones de salud, desde grandes centros hasta consultorios pequeños. Especialistas en Medicare, Medicaid y seguros privados."
+  keywords={[
+    'facturación médica',
+    'facturación de salud',
+    'facturación Medicare',
+    'facturación Medicaid',
+    'facturación de hospicio',
+    'facturación de salud en el hogar',
+    'facturación de cuidados paliativos',
+    'gestión del ciclo de ingresos',
+  ]}
+  og={{
+    title: 'CPS Facturación Médica | Soluciones Profesionales Completas',
+    description: 'Empresa reconocida de facturación médica que atiende a organizaciones de salud. Especialistas en Medicare, Medicaid, hospicio, salud en el hogar y cuidados paliativos.',
+    image: '/images/banner3.jpg',
+  }}
+  twitter={{
+    title: 'CPS Facturación Médica | Soluciones Profesionales Completas',
+    description: 'Facturación médica especializada en hospicio, salud en el hogar y cuidados paliativos. 10+ años de experiencia, 98 % de tasa de cobranza.',
+    image: '/images/banner3.jpg',
+  }}
+>
+  {/* ===== HERO ===== */}
+  <section class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+    <div class="hero-pattern" />
+
+    {/* Animated gradient orbs */}
+    <div class="absolute top-20 -left-20 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" style="animation: float 10s ease-in-out infinite" />
+    <div class="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-teal-400/10 blur-3xl" style="animation: float 12s ease-in-out infinite 2s" />
+
+    {/* Floating crosses */}
+    <div class="hero-cross w-10 h-10 top-[15%] left-[10%]" style="animation: float 8s ease-in-out infinite" />
+    <div class="hero-cross w-6 h-6 top-[60%] left-[85%]" style="animation: float 10s ease-in-out infinite 2s" />
+    <div class="hero-cross w-8 h-8 top-[80%] left-[20%]" style="animation: float 12s ease-in-out infinite 4s" />
+    <div class="hero-cross w-5 h-5 top-[25%] left-[70%]" style="animation: float 9s ease-in-out infinite 1s" />
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24 pt-40 lg:pt-32 relative z-10 w-full">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="hero-animate-1 flex items-center gap-3 mb-6">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/30 backdrop-blur-sm">
+              <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+              Su socio confiable en facturación médica
+            </span>
+          </div>
+          <h1 class="hero-animate-1 font-serif text-4xl sm:text-5xl lg:text-[3.75rem] text-white leading-[1.1] mb-6">
+            Soluciones profesionales{' '}
+            <span class="relative inline-block">
+              <span class="text-teal-400">completas</span>
+              <svg class="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 100 10" preserveAspectRatio="none">
+                <path d="M 0 5 Q 25 0 50 5 T 100 5" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+              </svg>
+            </span>
+            <br />para facturación médica
+          </h1>
+          <p class="hero-animate-2 text-lg text-slate-300 leading-relaxed mb-10 max-w-xl">
+            Empresa reconocida de facturación médica que atiende a
+            organizaciones que van desde grandes centros de salud hasta
+            consultorios pequeños. Nosotros nos ocupamos de la facturación
+            para que usted pueda dedicarse al cuidado del paciente.
+          </p>
+          <div class="hero-animate-3 flex flex-wrap gap-4 mb-10">
+            <a href="/es/contact" class="btn-primary pulse-cta">
+              <span>Solicitar evaluación gratuita</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a href="/es/services" class="btn-outline">
+              Explorar servicios
+            </a>
+          </div>
+
+          {/* Trust indicators */}
+          <div class="hero-animate-3 flex flex-wrap items-center gap-6 pt-6 border-t border-white/10">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+              <span class="text-sm text-slate-300">Conformidad HIPAA</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+              <span class="text-sm text-slate-300">10+ años de experiencia</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+              <span class="text-sm text-slate-300">98 % de tasa de cobranza</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Dashboard mockup card -- numerals stay as-is; only the chrome labels translate */}
+        <div class="hero-animate-3 hidden lg:block relative">
+          <div class="relative bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white/20">
+            <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100">
+              <div>
+                <div class="text-xs text-slate-500 font-medium uppercase tracking-wider">Ingresos del mes</div>
+                <div class="text-2xl font-serif text-navy-900 font-bold mt-1">$487,250</div>
+              </div>
+              <div class="flex items-center gap-1.5 px-3 py-1 bg-teal-50 rounded-full">
+                <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.306a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                </svg>
+                <span class="text-xs font-semibold text-teal-700">+22 %</span>
+              </div>
+            </div>
+
+            <svg viewBox="0 0 280 100" class="w-full h-20 mb-5">
+              <defs>
+                <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#0d9488" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#0d9488" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 0 80 L 35 70 L 70 75 L 105 55 L 140 60 L 175 40 L 210 45 L 245 25 L 280 20 L 280 100 L 0 100 Z" fill="url(#chartGrad)"/>
+              <path d="M 0 80 L 35 70 L 70 75 L 105 55 L 140 60 L 175 40 L 210 45 L 245 25 L 280 20" stroke="#0d9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="280" cy="20" r="4" fill="white" stroke="#0d9488" stroke-width="2"/>
+            </svg>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div class="bg-slate-50 rounded-lg p-3">
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider">Cobranza</div>
+                <div class="text-lg font-bold text-navy-900 mt-0.5">98 %</div>
+              </div>
+              <div class="bg-slate-50 rounded-lg p-3">
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider">Días A/R</div>
+                <div class="text-lg font-bold text-navy-900 mt-0.5">28</div>
+              </div>
+              <div class="bg-slate-50 rounded-lg p-3">
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider">Denegaciones</div>
+                <div class="text-lg font-bold text-navy-900 mt-0.5">3.2 %</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute -top-4 -left-4 bg-teal-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+            Panel en vivo
+          </div>
+
+          <div class="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-4 border border-slate-100 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500">Certificado</div>
+              <div class="text-sm font-bold text-navy-900">HIPAA seguro</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:block">
+      <div class="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center pt-2">
+        <div class="w-1 h-2 bg-white/40 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== EXPERTISE ===== */}
+  <section class="py-24 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-16">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Lo que hacemos mejor
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            Nuestra experiencia
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-3 gap-8">
+          {expertise.map((item) => (
+            <div class="group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+              <div class={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <div class={`h-1 bg-gradient-to-r ${item.borderGradient}`}></div>
+              <div class="relative p-8">
+                <div class="relative w-16 h-16 mb-6">
+                  <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/20 to-teal-600/10 group-hover:scale-110 transition-transform duration-500"></div>
+                  <div class="absolute inset-1 rounded-xl bg-white flex items-center justify-center">
+                    <svg class="w-7 h-7 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="font-serif text-2xl text-navy-900 mb-3">{item.title}</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                  {item.desc}
+                </p>
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-teal-50 rounded-full border border-teal-100">
+                  <div class="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
+                  <span class="text-xs font-semibold text-teal-700">{item.stats}</span>
+                </div>
+              </div>
+              <div class="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-teal-500/5 group-hover:bg-teal-500/10 transition-colors duration-500"></div>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== STATS ===== */}
+  <section class="relative py-20 overflow-hidden bg-gradient-to-br from-navy-900 via-[#122a4f] to-[#0f3d5c]">
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-0 left-0 w-full h-full" style="background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 60px 60px"></div>
+    </div>
+    <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-teal-500/20 blur-3xl" />
+    <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-teal-400/10 blur-3xl" />
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+      <ScrollReveal>
+        <div class="text-center mb-12">
+          <span class="text-teal-300 text-sm font-semibold uppercase tracking-wider">
+            En cifras
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-white mt-3">
+            Resultados que hablan por sí solos
+          </h2>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat) => (
+            <div class="group relative">
+              <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-teal-400/40 hover:bg-white/10 transition-all duration-500">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/30 to-teal-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
+                  <svg class="w-6 h-6 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={stat.icon} />
+                  </svg>
+                </div>
+                <div class="text-4xl sm:text-5xl font-serif text-white font-bold mb-2 group-hover:text-teal-300 transition-colors duration-500">
+                  {stat.value}
+                </div>
+                <div class="text-sm text-slate-300">{stat.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== HOW IT WORKS ===== */}
+  <section class="py-24 bg-cream relative overflow-hidden">
+    <div class="absolute top-10 right-10 w-64 h-64 rounded-full bg-teal-500/5 blur-3xl" />
+    <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-navy-900/5 blur-3xl" />
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+      <ScrollReveal>
+        <div class="text-center mb-16">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Nuestro proceso
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            Cómo CPS transforma su facturación
+          </h2>
+          <div class="section-line mx-auto" />
+          <p class="text-slate-600 max-w-2xl mx-auto mt-6">
+            Desde el primer reclamo hasta el pago final, nos encargamos de
+            cada paso de su ciclo de ingresos.
+          </p>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          <div class="hidden lg:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-teal-200 via-teal-400 to-teal-200" style="z-index: 0"></div>
+          {howItWorks.map((item) => (
+            <div class="relative group">
+              <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 relative z-10">
+                <div class="text-xs font-bold text-teal-600 tracking-widest mb-4">PASO {item.step}</div>
+                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500">
+                  <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+                  </svg>
+                </div>
+                <h3 class="font-serif text-xl text-navy-900 mb-2">{item.title}</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== QUOTE ===== */}
+  <section class="quote-bg py-20 lg:py-24">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <blockquote class="text-center">
+          <p class="font-serif text-2xl sm:text-3xl lg:text-4xl text-white leading-relaxed italic">
+            &ldquo;Como su proveedor de servicios de facturación médica,
+            somos una extensión de su personal.{' '}
+            <span class="text-teal-300">Parte de su equipo.</span>&rdquo;
+          </p>
+        </blockquote>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== SERVICES OVERVIEW ===== */}
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-16">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Lo que ofrecemos
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            Nuestros servicios
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service) => (
+            <div class="card-hover card-teal-top bg-cream rounded-2xl p-7 border border-slate-100">
+              <div class="icon-box mb-5">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={service.iconPath} />
+                </svg>
+              </div>
+              <h3 class="font-serif text-lg text-navy-900 mb-2">
+                {service.title}
+              </h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                {service.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== KEY BENEFITS ===== */}
+  <section class="py-24 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <ScrollReveal direction="left">
+          <div>
+            <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+              Por qué asociarse con nosotros
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-6">
+              Beneficios clave de trabajar con CPS
+            </h2>
+            <div class="section-line mb-8" />
+            <div class="space-y-6">
+              {benefits.map((benefit) => (
+                <div class="flex gap-4">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mt-0.5">
+                    <svg class="w-5 h-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-navy-900 mb-1">{benefit.title}</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">{benefit.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="right">
+          <div class="relative">
+            <div class="rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/partnership-handshake.jpg"
+                alt="Apretón de manos que simboliza la colaboración"
+                class="w-full h-[450px] object-cover"
+              />
+            </div>
+            <div class="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6 border border-slate-100">
+              <div class="text-3xl font-bold text-teal-600 font-serif">10+</div>
+              <div class="text-sm text-slate-600 mt-1">Años de experiencia</div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== TESTIMONIALS ===== */}
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-16">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Éxito de nuestros clientes
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            Lo que dicen nuestros clientes
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+      </ScrollReveal>
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial) => (
+            <div class="group relative bg-white rounded-2xl p-8 border border-slate-200 hover:border-teal-200 hover:shadow-xl transition-all duration-500">
+              <svg class="absolute top-6 right-6 w-16 h-16 text-teal-100 group-hover:text-teal-200 transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <div class="flex gap-0.5 mb-4">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p class="relative text-slate-700 leading-relaxed mb-8 text-[15px]">
+                &ldquo;{testimonial.quote}&rdquo;
+              </p>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-teal-50 rounded-full mb-6">
+                <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.306a11.95 11.95 0 015.814-5.519l2.74-1.22" />
+                </svg>
+                <span class="text-xs font-bold text-teal-700">{testimonial.metric}</span>
+                <span class="text-xs text-teal-600">{testimonial.metricLabel}</span>
+              </div>
+              <div class="flex items-center gap-3 pt-6 border-t border-slate-100">
+                <div class={`w-12 h-12 rounded-full bg-gradient-to-br ${testimonial.color} flex items-center justify-center text-white font-semibold text-sm shadow-md`}>
+                  {testimonial.initials}
+                </div>
+                <div>
+                  <p class="font-semibold text-navy-900 text-sm">{testimonial.name}</p>
+                  <p class="text-slate-500 text-xs">{testimonial.role}</p>
+                  <p class="text-slate-400 text-xs">{testimonial.company}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== FREE ASSESSMENT CTA ===== */}
+  <section class="hero-gradient py-20 relative">
+    <div class="hero-pattern absolute inset-0" />
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <ScrollReveal>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+          Sin costo, sin compromiso
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5">
+          Obtenga una evaluación gratuita de su ciclo de ingresos
+        </h2>
+        <p class="text-slate-300 text-lg mb-4 max-w-2xl mx-auto">
+          La mayoría de los consultorios que evaluamos descubren entre un
+          15 % y un 25 % de ingresos recuperables. Descubra cuánto podría
+          estar ganando.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 mt-8">
+          <a href="/es/contact" class="btn-primary pulse-cta">
+            <span>Solicitar evaluación gratuita</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="tel:801-341-9304" class="btn-outline">
+            Llamar al 801-341-9304
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== EMR INTEGRATIONS ===== */}
+  <section class="py-16 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-10">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Experiencia en EMR
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl text-navy-900 mt-3 mb-4">
+            Experiencia en los principales EMR
+          </h2>
+          <div class="section-line mx-auto" />
+          <p class="text-slate-600 max-w-2xl mx-auto mt-6">
+            Nuestro equipo de facturación está capacitado en todos los
+            principales sistemas EMR de salud. Trabajamos sin contratiempos
+            dentro de su flujo de trabajo existente &mdash; sin software nuevo
+            ni integración técnica compleja.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center items-center gap-8 lg:gap-12">
+          {emrs.map((emr) => (
+            <div class="px-6 py-3 bg-white rounded-lg border border-slate-200 text-sm font-semibold text-navy-800 shadow-sm">
+              {emr}
+            </div>
+          ))}
+        </div>
+        <p class="text-center text-sm text-slate-500 mt-6">
+          ¿No ve el suyo? Trabajamos con todas las plataformas principales de
+          salud. <a href="/es/contact" class="text-teal-600 hover:text-teal-700 font-medium">Pregúntenos</a>.
+        </p>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          ¿Listo para optimizar su ciclo de ingresos?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Permita que CPS se ocupe de su facturación para que usted pueda
+          dedicarse a lo que más importa &mdash; sus pacientes.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/es/contact" class="btn-primary">
+            <span>Comience hoy</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/es/about" class="btn-outline">
+            Conozca más sobre nosotros
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

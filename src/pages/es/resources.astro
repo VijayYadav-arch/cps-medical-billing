@@ -1,0 +1,295 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+
+interface Resource {
+  slug: string;
+  category: string;
+  title: string;
+  description: string;
+  format: string;
+  icon: "checkmark" | "document" | "chart" | "shield" | "clipboard" | "lock";
+}
+
+const resources: Resource[] = [
+  {
+    slug: "hospice-billing-checklist",
+    category: "Hospicio",
+    title: "Lista de verificación de facturación de hospicio",
+    description:
+      "Lista de 25 puntos que cubre envíos de NOE, procesamiento de reclamos, requisitos de documentación y prevención de errores comunes. Esencial para todo equipo de facturación de hospicio.",
+    format: "PDF • 8 páginas",
+    icon: "checkmark",
+  },
+  {
+    slug: "pdgm-optimization-guide",
+    category: "Salud en el hogar",
+    title: "Guía de optimización de PDGM",
+    description:
+      "Estrategias integrales para maximizar el reembolso de salud en el hogar bajo PDGM. Incluye consejos de codificación, estándares de documentación y preparación para auditorías.",
+    format: "PDF • 24 páginas",
+    icon: "document",
+  },
+  {
+    slug: "2026-cms-rate-reference",
+    category: "Industria",
+    title: "Referencia de tarifas CMS 2026",
+    description:
+      "Referencia completa de las tarifas de pago de Medicare 2026 para hospicio, salud en el hogar, cuidados paliativos y servicios relacionados. Actualizada trimestralmente.",
+    format: "PDF • 12 páginas",
+    icon: "chart",
+  },
+  {
+    slug: "denial-management-playbook",
+    category: "Ciclo de ingresos",
+    title: "Manual de gestión de denegaciones",
+    description:
+      "Manual paso a paso para identificar, clasificar y apelar reclamos denegados. Incluye plantillas de cartas de apelación y flujos de escalamiento.",
+    format: "PDF • 32 páginas",
+    icon: "shield",
+  },
+  {
+    slug: "billing-company-evaluation-framework",
+    category: "Industria",
+    title: "Cómo elegir un socio de facturación",
+    description:
+      "Marco de evaluación de 10 puntos para ayudarle a elegir la empresa de facturación médica adecuada. Incluye plantillas de comparación y señales de alerta.",
+    format: "PDF • 16 páginas",
+    icon: "clipboard",
+  },
+  {
+    slug: "hipaa-compliance-checklist",
+    category: "Cumplimiento",
+    title: "Lista de verificación de cumplimiento HIPAA",
+    description:
+      "Requisitos esenciales de HIPAA para operaciones de facturación. Lista de autoevaluación con guía de acciones correctivas y plantillas de BAA.",
+    format: "PDF • 14 páginas",
+    icon: "lock",
+  },
+];
+
+interface Webinar {
+  title: string;
+  date: string;
+  time: string;
+}
+
+const webinars: Webinar[] = [
+  {
+    title: "Actualizaciones de CMS 2026: lo que ha cambiado",
+    date: "25 de abril de 2026",
+    time: "2 p. m. EST",
+  },
+  {
+    title: "Dominio de PDGM: análisis profundo del Q2",
+    date: "15 de mayo de 2026",
+    time: "2 p. m. EST",
+  },
+  {
+    title: "Mejores prácticas de facturación de hospicio",
+    date: "12 de junio de 2026",
+    time: "2 p. m. EST",
+  },
+];
+
+const iconPaths: Record<Resource["icon"], string> = {
+  checkmark: "M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  document: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z",
+  chart: "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z",
+  shield: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
+  clipboard: "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z",
+  lock: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z",
+};
+---
+<BaseLayout
+  title="Recursos y descargas"
+  description="Guías, listas de verificación y recursos gratuitos para profesionales de facturación médica. Descargue contenido experto para optimizar su ciclo de ingresos."
+>
+  {/* ===== PAGE HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/medical-team.jpg" />
+    <div class="hero-pattern" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <ScrollReveal>
+        <div class="max-w-3xl mx-auto text-center">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+            Recursos gratuitos
+          </span>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+            Recursos de facturación &{" "}
+            <span class="text-teal-400">descargas</span>
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+            Guías expertas, listas de verificación y análisis del sector
+            para ayudar a su consultorio a prosperar.
+          </p>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== RESOURCES GRID ===== */}
+  <section class="bg-cream py-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-16">
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-4">
+            Descargue nuestras guías gratuitas
+          </h2>
+          <div class="section-line mx-auto mb-4" />
+          <p class="text-slate-600 text-lg max-w-2xl mx-auto">
+            Recursos prácticos creados por expertos en facturación.
+          </p>
+          <p class="text-slate-500 text-sm italic mt-2 max-w-2xl mx-auto">
+            Nota: las guías están actualmente disponibles únicamente en
+            inglés. Si necesita ayuda en español, contáctenos directamente.
+          </p>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {resources.map((resource) => (
+            <div class="bg-white rounded-2xl p-8 card-hover border border-slate-100 shadow-sm flex flex-col">
+              <div class="icon-box mb-5">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={iconPaths[resource.icon]} />
+                </svg>
+              </div>
+              <span class="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold uppercase tracking-wider mb-4 w-fit">
+                {resource.category}
+              </span>
+              <h3 class="font-serif text-xl text-navy-900 mb-3">
+                {resource.title}
+              </h3>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
+                {resource.description}
+              </p>
+              <p class="text-slate-400 text-xs font-medium mb-6">
+                {resource.format}
+              </p>
+              <a href={`/es/contact?resource=${resource.slug}`} class="btn-primary w-full justify-center">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+                <span>Descargar gratis</span>
+              </a>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== NEWSLETTER CTA ===== */}
+  <section class="bg-white py-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <ScrollReveal direction="left">
+          <div>
+            <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-4">
+              Manténgase al día con los cambios del sector
+            </h2>
+            <div class="section-line mb-6" />
+            <p class="text-slate-600 leading-relaxed">
+              Reciba análisis mensual sobre regulaciones de facturación,
+              actualizaciones de pagadores y mejores prácticas del ciclo
+              de ingresos directamente en su bandeja de entrada. Únase a
+              miles de profesionales de facturación médica que confían en
+              nuestro análisis experto para mantenerse en cumplimiento y
+              maximizar las cobranzas.
+            </p>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal direction="right">
+          <form action="/es/contact" method="get" class="max-w-lg mx-auto relative z-10">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                name="email"
+                placeholder="Ingrese su correo electrónico"
+                class="form-input flex-1"
+                required
+              />
+              <button type="submit" class="btn-primary whitespace-nowrap">
+                <span>Suscribirse</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
+          </form>
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== WEBINARS / EVENTS ===== */}
+  <section class="bg-cream py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-12">
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mb-4">
+            Próximos webinars
+          </h2>
+          <div class="section-line mx-auto mb-4" />
+          <p class="text-slate-600 text-lg">
+            Únase a nuestros webinars gratuitos mensuales.
+          </p>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal direction="stagger">
+        <div class="grid md:grid-cols-3 gap-6">
+          {webinars.map((webinar) => (
+            <div class="bg-white rounded-xl p-6 border border-slate-100 shadow-sm">
+              <div class="flex items-center gap-2 text-teal-600 text-sm font-medium mb-3">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                </svg>
+                <span>{webinar.date} a las {webinar.time}</span>
+              </div>
+              <h3 class="font-serif text-lg text-navy-900 mb-4">
+                {webinar.title}
+              </h3>
+              <a href="#" class="inline-flex items-center gap-2 text-teal-600 font-semibold text-sm hover:text-teal-700 transition-colors">
+                <span>Inscribirse</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          ¿Necesita ayuda personalizada?
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          Nuestros expertos en facturación pueden brindar orientación
+          personalizada para su consultorio.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/es/contact" class="btn-primary">
+            <span>Evaluación gratuita</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/es/contact" class="btn-outline">
+            Contáctenos
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

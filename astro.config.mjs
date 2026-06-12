@@ -3,6 +3,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
+import devApiMock from './scripts/dev-api-mock.mjs';
 
 export default defineConfig({
   site: 'https://cpshealthcarebilling.com',
@@ -16,6 +17,7 @@ export default defineConfig({
     routing: { prefixDefaultLocale: false },
   },
   integrations: [
+    devApiMock(),
     react(),
     mdx(),
     sitemap({

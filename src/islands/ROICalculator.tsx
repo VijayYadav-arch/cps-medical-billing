@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { trackEvent } from '@/lib/api';
 
 export type ROILocale = 'en' | 'es';
@@ -117,8 +117,13 @@ export function ROICalculator({ locale = 'en' }: { locale?: ROILocale }) {
   const [denialRate, setDenialRate] = useState(12);
   const [arDays, setArDays] = useState(45);
   const [showResults, setShowResults] = useState(false);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
-  const additionalMonthly = monthlyCharges * (0.98 - collectionRate / 100);
+  // Guard against the divide-by-100 going negative when the user types a
+  // collection rate higher than our 98% target -- then there's no recovery
+  // headroom to project.
+  const collectionGap = Math.max(0, 0.98 - collectionRate / 100);
+  const additionalMonthly = monthlyCharges * collectionGap;
   const annualIncrease = additionalMonthly * 12;
 
   const s = stringsFor(locale);
@@ -127,10 +132,22 @@ export function ROICalculator({ locale = 'en' }: { locale?: ROILocale }) {
   function handleCalculate() {
     setShowResults(true);
     trackEvent('roi_calculated', { monthly_charges: monthlyCharges, locale });
+    // Scroll the results into view on mobile where they appear below the form.
+    requestAnimationFrame(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
+  // Until the user clicks Calculate, render the form full-width and centered.
+  // After Calculate, switch to a 2-column grid (form left / results right) on
+  // large screens; mobile stays stacked. This avoids the form being squeezed
+  // into half the container with an empty right column on initial load.
+  const wrapperClass = showResults
+    ? 'grid lg:grid-cols-2 gap-16 items-start'
+    : 'max-w-2xl mx-auto';
+
   return (
-    <div className="grid lg:grid-cols-2 gap-16">
+    <div className={wrapperClass}>
       {/* Left: Inputs */}
       <div>
         <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
@@ -215,7 +232,7 @@ export function ROICalculator({ locale = 'en' }: { locale?: ROILocale }) {
 
       {/* Right: Results */}
       {showResults && (
-        <div>
+        <div ref={resultsRef} className="scroll-mt-24">
           <h2 className="font-serif text-2xl text-navy-900 mb-8">
             {s.resultsTitle}
           </h2>

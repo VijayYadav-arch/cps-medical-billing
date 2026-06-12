@@ -1,0 +1,201 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeroBackground from '@/components/PageHeroBackground.astro';
+import ScrollReveal from '@/components/ScrollReveal.astro';
+import { STATES } from '@/data/states';
+
+export async function getStaticPaths() {
+  return STATES.map((state) => ({
+    params: { slug: state.slug },
+    props: { state },
+  }));
+}
+
+const { state } = Astro.props;
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://cpshealthcarebilling.com';
+const pageUrl = `${SITE_URL}/states/${state.slug}/`;
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${pageUrl}#service`,
+  name: `Medical Billing Services in ${state.name}`,
+  description: `End-to-end medical billing for hospice, home-health, and palliative-care providers in ${state.name}. ${state.intro}`,
+  provider: { '@id': `${SITE_URL}/#organization` },
+  serviceType: ['Medical Billing', 'Revenue Cycle Management', 'Hospice Billing', 'Home Health Billing', 'Palliative Care Billing'],
+  areaServed: {
+    '@type': 'State',
+    name: state.name,
+    addressRegion: state.abbr,
+    containedInPlace: { '@type': 'Country', name: 'United States' },
+  },
+  audience: {
+    '@type': 'BusinessAudience',
+    audienceType: ['Hospice agencies', 'Home health agencies', 'Palliative care practices'],
+  },
+  url: pageUrl,
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'States We Serve', item: `${SITE_URL}/states/` },
+    { '@type': 'ListItem', position: 3, name: state.name, item: pageUrl },
+  ],
+};
+
+const pageTitle = `Medical Billing Services in ${state.name}`;
+const pageDescription = `Hospice, home-health, and palliative-care billing for ${state.name} agencies. CPS handles ${state.medicaidProgram}, the major commercial payers, and Medicare. Free assessment available.`;
+---
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  extraJsonLd={[serviceJsonLd, breadcrumbJsonLd]}
+>
+  {/* ===== HERO ===== */}
+  <section class="page-hero py-32 pt-40">
+    <PageHeroBackground src="/images/financial-growth.jpg" />
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-sm font-medium border border-teal-400/20 mb-6">
+        Local expertise &middot; {state.name}
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.15] mb-6">
+        Medical billing services in <span class="text-teal-400">{state.name}</span>
+      </h1>
+      <p class="text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+        Hospice, home-health, and palliative-care billing for {state.name} agencies. Free assessment of your current revenue cycle.
+      </p>
+    </div>
+  </section>
+
+  {/* ===== STATE CONTEXT ===== */}
+  <section class="py-20 bg-cream">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-10">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            CPS in {state.name}
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            Local payer expertise, all 50 states.
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+        <p class="text-slate-600 text-lg leading-relaxed">
+          {state.intro}
+        </p>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== KEY PAYERS ===== */}
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-12">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            Payers we work with in {state.name}
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            {state.medicaidProgram} + commercial + Medicare.
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+          {state.keyPayers.map((payer) => (
+            <span class="inline-flex items-center px-5 py-2.5 rounded-full bg-cream border border-slate-200 text-navy-900 font-medium text-sm">
+              {payer}
+            </span>
+          ))}
+        </div>
+        <p class="text-slate-500 text-sm text-center mt-8 max-w-2xl mx-auto">
+          And every other payer your {state.name} practice contracts with. CPS works with all major commercial carriers, Medicare, Medicare Advantage, and Medicaid managed-care plans.
+        </p>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== REGULATORY NOTE ===== */}
+  <section class="py-20 bg-cream">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="bg-white rounded-2xl p-10 shadow-sm border border-slate-100">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-teal-600/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-serif text-xl text-navy-900 mb-3">{state.name}-specific expertise</h3>
+              <p class="text-slate-600 leading-relaxed">{state.regulatoryNote}</p>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== SERVICES ===== */}
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <ScrollReveal>
+        <div class="text-center mb-12">
+          <span class="text-teal-600 text-sm font-semibold uppercase tracking-wider">
+            What we handle for {state.name} agencies
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-navy-900 mt-3 mb-4">
+            End-to-end revenue cycle, no missed claims.
+          </h2>
+          <div class="section-line mx-auto" />
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <div class="grid md:grid-cols-3 gap-8">
+          {[
+            { title: 'Hospice billing', desc: `NOE submission, all-payer claims, Medicaid room-and-board for ${state.name} nursing-facility residents, level-of-care management, and the hospice aggregate cap tracking.` },
+            { title: 'Home-health billing', desc: `Daily NOA submissions, PDGM optimization, A/R follow-up against ${state.medicaidProgram}, and reporting that shows you cash-flow trends.` },
+            { title: 'Palliative-care billing', desc: `Specialty coding for palliative providers in ${state.name}, capture of advance-care-planning codes, and clean E/M billing against commercial and Medicare payers.` },
+          ].map((card) => (
+            <div class="bg-cream rounded-2xl p-7 card-hover shadow-sm border border-slate-100">
+              <h3 class="font-serif text-lg text-navy-900 mb-3">{card.title}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+
+  {/* ===== CTA ===== */}
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+      <div class="hero-pattern absolute inset-0" />
+      <ScrollReveal>
+        <h2 class="font-serif text-3xl sm:text-4xl text-white mb-5 relative z-10">
+          Free assessment for your {state.name} practice
+        </h2>
+        <p class="text-slate-300 text-lg mb-10 relative z-10">
+          We will review your current billing operation, identify recoverable revenue, and show you what CPS can do specifically for a {state.name} agency.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 relative z-10">
+          <a href="/assessment" class="btn-primary">
+            <span>Request Free Assessment</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="tel:801-341-9304" class="btn-outline-dark text-white border-white hover:bg-white hover:text-navy-900">
+            <span>Call 801-341-9304</span>
+          </a>
+        </div>
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

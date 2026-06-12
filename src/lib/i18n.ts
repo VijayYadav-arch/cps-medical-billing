@@ -72,6 +72,7 @@ const UI = {
       homeHealth: { en: 'Home Health', es: 'Salud en el hogar' },
       palliative: { en: 'Palliative Care', es: 'Cuidados paliativos' },
       privatePractices: { en: 'Private Practices', es: 'Consultorios privados' },
+      statesWeServe: { en: 'All 50 States', es: 'Los 50 estados' },
     },
     services: {
       collection: { en: 'Collection / Reimbursement', es: 'Cobranza y reembolso' },

@@ -148,6 +148,8 @@ interface InquiryFormProps {
   /** Override the service-type select options entirely. */
   serviceOptions?: { value: string; label: string }[];
   className?: string;
+  /** Attribution source (e.g. "state-utah") carried into the submit payload + analytics. */
+  source?: string;
 }
 
 export function InquiryForm({
@@ -158,8 +160,17 @@ export function InquiryForm({
   messagePlaceholder,
   serviceOptions,
   className = '',
+  source,
 }: InquiryFormProps) {
   const s = stringsFor(locale);
+  // Prefer the prop, but fall back to the URL query at mount so attribution
+  // survives on a static host where Astro.url.searchParams isn't available
+  // server-side.
+  const resolvedSource =
+    source ??
+    (typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search).get('source') ?? undefined
+      : undefined);
   const effectiveTitle = title ?? s.defaultTitle;
   const effectiveSubmit = submitLabel ?? s.defaultSubmit;
   const effectiveMessageLabel = messageLabel ?? s.defaultMessageLabel;
@@ -192,9 +203,9 @@ export function InquiryForm({
     setError('');
 
     try {
-      await apiClient.post('/inquiries', form);
+      await apiClient.post('/inquiries', { ...form, source: resolvedSource });
       setSubmitted(true);
-      trackEvent('inquiry_submitted', { service_type: form.serviceType, locale });
+      trackEvent('inquiry_submitted', { service_type: form.serviceType, locale, source: resolvedSource });
     } catch (err) {
       const message = (err as { message?: string })?.message || s.genericError;
       setError(message);

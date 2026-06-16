@@ -232,5 +232,9 @@ const websiteJsonLd = {
     <Header />
     <main><slot /></main>
     <Footer />
+    <script>
+      import { initCtaTracking } from '@/lib/cta-tracking';
+      initCtaTracking();
+    </script>
   </body>
 </html>

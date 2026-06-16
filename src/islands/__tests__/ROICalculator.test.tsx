@@ -1,6 +1,6 @@
 /// <reference types="@testing-library/jest-dom" />
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { ROICalculator } from '@/islands/ROICalculator';
 
@@ -56,6 +56,34 @@ describe('ROICalculator', () => {
       'roi_calculated',
       expect.objectContaining({ monthly_charges: expect.any(Number), locale: 'en' })
     );
+  });
+
+  it('fires roi_calculated after filling inputs and clicking calculate', async () => {
+    render(<ROICalculator />);
+
+    fireEvent.change(screen.getByLabelText(/monthly charges submitted/i), {
+      target: { value: '180000' },
+    });
+    fireEvent.change(screen.getByLabelText(/current collection rate/i), {
+      target: { value: '82' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /calculate/i }));
+
+    await waitFor(() => {
+      expect(vi.mocked(trackEvent)).toHaveBeenCalledWith(
+        'roi_calculated',
+        expect.objectContaining({ locale: expect.any(String) })
+      );
+    });
+  });
+
+  it('tags the result CTA with cta_click tracking attributes', () => {
+    render(<ROICalculator />);
+    fireEvent.click(screen.getByRole('button', { name: /calculate/i }));
+    const cta = screen.getByText(/get your free assessment/i).closest('a');
+    expect(cta).toHaveAttribute('data-track-cta', 'assessment');
+    expect(cta).toHaveAttribute('data-cta-source', 'roi-calculator');
   });
 
   it('renders Spanish strings when locale="es" is passed', () => {

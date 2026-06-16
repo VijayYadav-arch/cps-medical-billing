@@ -293,7 +293,12 @@ export function ROICalculator({ locale = 'en' }: { locale?: ROILocale }) {
             <p className="text-navy-900 font-serif text-lg mb-4">
               {s.cta}
             </p>
-            <a href={s.ctaHref} className="btn-primary inline-flex">
+            <a
+              href={s.ctaHref}
+              data-track-cta="assessment"
+              data-cta-source="roi-calculator"
+              className="btn-primary inline-flex"
+            >
               <span>{s.ctaLink}</span>
               <svg
                 className="w-4 h-4"

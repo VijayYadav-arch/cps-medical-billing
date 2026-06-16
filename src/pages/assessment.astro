@@ -74,6 +74,11 @@ const TRUST_BADGES = [
   '98% Collection Rate',
   '24hr Response Time',
 ];
+
+// Attribution source from the state-page CTAs (e.g. ?source=state-utah). On this
+// static host the InquiryForm island also reads it client-side from the URL, so
+// this prop is a best-effort hint; the island is the source of truth.
+const source = Astro.url.searchParams.get('source') ?? undefined;
 ---
 
 <BaseLayout
@@ -294,6 +299,7 @@ const TRUST_BADGES = [
               submitLabel="Request Free Assessment"
               messageLabel="Tell us about your current billing challenges"
               messagePlaceholder="Describe your practice size, current billing setup, and any specific pain points..."
+              source={source}
             />
           </ScrollReveal>
         </div>

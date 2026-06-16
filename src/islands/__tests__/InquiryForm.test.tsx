@@ -12,6 +12,7 @@ vi.mock('@/lib/analytics', () => ({
 }));
 
 import { apiClient } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -69,6 +70,31 @@ describe('InquiryForm', () => {
         serviceType: 'hospice-billing',
         message: 'We need help with hospice billing.',
       })
+    );
+  });
+
+  it('includes the source prop in the POST body and the inquiry_submitted event', async () => {
+    vi.mocked(apiClient.post).mockResolvedValue({ status: 200, data: {} } as never);
+    render(<InquiryForm source="state-utah" />);
+
+    fireEvent.change(screen.getByLabelText(/first name/i), { target: { value: 'Jane' } });
+    fireEvent.change(screen.getByLabelText(/last name/i), { target: { value: 'Doe' } });
+    fireEvent.change(screen.getByLabelText(/email address/i), { target: { value: 'jane@example.com' } });
+    fireEvent.change(screen.getByLabelText(/service needed/i), { target: { value: 'hospice-billing' } });
+    fireEvent.change(screen.getByLabelText(/tell us about your needs/i), { target: { value: 'Hello.' } });
+    fireEvent.click(screen.getByRole('button', { name: /submit inquiry/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/inquiry received/i)).toBeInTheDocument();
+    });
+
+    expect(apiClient.post).toHaveBeenCalledWith(
+      '/inquiries',
+      expect.objectContaining({ source: 'state-utah' })
+    );
+    expect(vi.mocked(trackEvent)).toHaveBeenCalledWith(
+      'inquiry_submitted',
+      expect.objectContaining({ source: 'state-utah', service_type: 'hospice-billing', locale: 'en' })
     );
   });
 

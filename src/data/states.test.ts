@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { STATES } from '@/data/states';
 
 describe('STATES data integrity', () => {
-  it('has at least the 10 launch states', () => {
-    expect(STATES.length).toBeGreaterThanOrEqual(10);
+  it('covers all 50 states', () => {
+    expect(STATES.length).toBe(50);
   });
 
   it('has unique slugs', () => {

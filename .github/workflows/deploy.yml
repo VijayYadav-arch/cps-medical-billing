@@ -32,9 +32,13 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
-          app_location: '/'
-          output_location: 'dist'
+          # We build in CI (npm run build) and upload the finished output, so
+          # skip_app_build is true. In that mode Azure treats app_location as the
+          # folder that already contains index.html — that's dist/, not the repo
+          # root. output_location is ignored when skip_app_build is true.
+          app_location: 'dist'
           skip_app_build: true
+          skip_api_build: true
 
   close_pull_request:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

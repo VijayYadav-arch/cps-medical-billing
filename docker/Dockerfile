@@ -2,6 +2,10 @@
 # Consumed by cps-dotnet/docker-compose.testbed.yml.
 FROM node:20-alpine AS build
 WORKDIR /app
+# Build toolchain for native npm modules (e.g. better-sqlite3) — alpine has no
+# prebuilt binaries, so node-gyp compiles from source. Build-stage only; the
+# final nginx image stays slim.
+RUN apk add --no-cache python3 make g++
 COPY package*.json ./
 RUN npm ci
 COPY . .
